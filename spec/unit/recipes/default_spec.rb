@@ -38,8 +38,25 @@ describe 'nace-ckan::default' do
       expect { chef_run }.to_not raise_error
     end
 
-    it 'installs dependencies' do
-      expect(chef_run).to install_package(['nginx','libpq5'])
+    it 'installs libpq5' do
+      expect(chef_run).to install_package('libpq5')
+    end
+
+    it 'install apache using httpd cookbook' do
+      expect(chef_run).to create_httpd_service('default')
+    end
+
+    it 'install mod_wsgi using httpd cookbook' do
+      expect(chef_run).to create_httpd_module('wsgi')
+    end
+
+    it 'installs nginx' do
+      expect(chef_run).to install_package('nginx')
+    end
+
+    it 'stops and disables nginx' do
+      expect(chef_run).to stop_service('nginx')
+      expect(chef_run).to disable_service('nginx')
     end
 
     it 'fetches the ckan .deb' do

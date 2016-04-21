@@ -24,3 +24,68 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+apt_update 'system' do
+  action :periodic
+  frequency 86400
+end
+
+package 'libpq5' do
+  action :install
+end
+
+httpd_service 'default' do
+  action [:create, :start]
+end
+
+httpd_module 'wsgi' do
+  action :create
+end
+
+package 'nginx'
+
+service 'nginx' do
+  action [:disable, :stop]
+end
+
+remote_file "#{Chef::Config[:file_cache_path]}/python-ckan_2.5-trusty_amd64.deb" do
+  source 'http://packaging.ckan.org/python-ckan_2.5-trusty_amd64.deb'
+  mode '0644'
+  action :create_if_missing
+end
+
+dpkg_package "python-ckan_2.5-trusty_amd64.deb" do
+  source "#{Chef::Config[:file_cache_path]}/python-ckan_2.5-trusty_amd64.deb"
+  action :install
+end
+
+httpd_config "ckan_default" do
+  source 'ckan_default.erb'
+  variables ({'server_name' => 'localhost','processes' => '2','threads' => '15'})
+  action :create
+end
+
+httpd_config "datapusher" do
+  source 'datapusher.erb'
+  variables ({'server_name' => 'localhost','processes' => '2','threads' => '15'})
+  action :create
+end
+
+template "/etc/ckan/default/production.ini" do
+  source 'production.ini.erb'
+  variables ({
+    'port' => '5000',
+    'session_secret' => '/LQ1h6/Sl0EFEF1maYhFs0Sxo',
+    'instance_uuid' => '200e5ca3-cffd-47aa-a93e-4c40bb81ce2c',
+    'postgresql_url' => 'postgresql://ckan_default:pass@localhost/ckan_default',
+    'postgresql_datastore_write_url' => 'postgresql://ckan_default:pass@localhost/datastore_default',
+    'postgresql_datastore_read_url' => 'postgresql://datastore_default:pass@localhost/datastore_default',
+    'solr_url' => 'http://127.0.0.1:8983/solr',
+    'ckan_plugins' => 'stats text_view image_view recline_view',
+    'ckan_default_views' => 'image_view text_view recline_view',
+    'ckan_site_title' => 'CKAN',
+    'ckan_site_logo_path' => '/base/images/ckan-logo.png',
+    'ckan_site_favicon' => '/images/icons/ckan.ico',
+    'ckan_datapusher_url' => 'http://127.0.0.1:8800/'
+  })
+  action :create
+end
