@@ -39,8 +39,7 @@ describe 'nace-ckan::default' do
     end
 
     it 'installs dependencies' do
-      expect(chef_run).to install_package('nginx')
-      expect(chef_run).to install_package('libpq5')
+      expect(chef_run).to install_package(['nginx','libpq5'])
     end
 
 
