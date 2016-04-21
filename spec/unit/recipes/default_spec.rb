@@ -28,11 +28,13 @@
 require 'spec_helper'
 
 describe 'nace-ckan::default' do
-  context 'When all attributes are default, on an unspecified platform' do
+  context 'When all attributes are default, on Ubuntu 14.04' do
     let(:chef_run) do
-      runner = ChefSpec::ServerRunner.new
+      runner = ChefSpec::SoloRunner.new
       runner.converge(described_recipe)
     end
+
+    let()
 
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
@@ -41,6 +43,13 @@ describe 'nace-ckan::default' do
     it 'installs dependencies' do
       expect(chef_run).to install_package(['nginx','libpq5'])
     end
+
+    it 'fetches the ckan .deb' do
+      expect(chef_run).to create_remote_file_if_missing('/var/chef/cache/python-ckan_2.5-trusty_amd64.deb').with(
+        source: 'http://packaging.ckan.org/python-ckan_2.5-trusty_amd64.deb'
+      )
+    end
+
 
 
 
