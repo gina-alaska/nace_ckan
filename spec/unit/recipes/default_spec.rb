@@ -37,5 +37,13 @@ describe 'nace-ckan::default' do
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
+
+    it 'installs dependencies' do
+      expect(chef_run).to install_package('nginx')
+      expect(chef_run).to install_package('libpq5')
+    end
+
+
+
   end
 end
