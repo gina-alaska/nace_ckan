@@ -1,0 +1,8 @@
+build:
+  image: uafgina/chefdk:0.12.0
+  commands:
+    - eval "$(chef shell-init sh)"
+    - rake lint
+    - rake style
+    - rake unit
+
