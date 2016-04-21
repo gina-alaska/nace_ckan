@@ -48,8 +48,8 @@ describe 'nace-ckan::default' do
       )
     end
 
-
-
-
+    it 'installs ckan' do
+      expect(chef_run).to install_dpkg_package('/var/chef/cache/python-ckan_2.5-trusty_amd64.deb')
+    end
   end
 end
