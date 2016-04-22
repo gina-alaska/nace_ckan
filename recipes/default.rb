@@ -26,7 +26,7 @@
 
 apt_update 'system' do
   action :periodic
-  frequency 86400
+  frequency 86_400
 end
 
 package 'libpq5' do
@@ -53,24 +53,24 @@ remote_file "#{Chef::Config[:file_cache_path]}/python-ckan_2.5-trusty_amd64.deb"
   action :create_if_missing
 end
 
-dpkg_package "python-ckan_2.5-trusty_amd64.deb" do
+dpkg_package 'python-ckan_2.5-trusty_amd64.deb' do
   source "#{Chef::Config[:file_cache_path]}/python-ckan_2.5-trusty_amd64.deb"
   action :install
 end
 
-httpd_config "ckan_default" do
+httpd_config 'ckan_default' do
   source 'ckan_default.erb'
-  variables ({'server_name' => 'localhost','processes' => '2','threads' => '15'})
+  variables ({ 'server_name' => 'localhost', 'processes' => '2', 'threads' => '15' })
   action :create
 end
 
-httpd_config "datapusher" do
+httpd_config 'datapusher' do
   source 'datapusher.erb'
-  variables ({'server_name' => 'localhost','processes' => '2','threads' => '15'})
+  variables ({ 'server_name' => 'localhost', 'processes' => '2', 'threads' => '15' })
   action :create
 end
 
-template "/etc/ckan/default/production.ini" do
+template '/etc/ckan/default/production.ini' do
   source 'production.ini.erb'
   variables ({
     'port' => '5000',
