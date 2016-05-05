@@ -33,11 +33,18 @@ package 'libpq5' do
   action :install
 end
 
-httpd_service 'default' do
+httpd_service 'ckan' do
   action [:create, :start]
+  listen_ports ['8080']
+end
+
+httpd_service 'datapusher' do
+  action [:create, :start]
+  listen_ports ['8800']
 end
 
 httpd_module 'wsgi' do
+  instance 'ckan'
   action :create
 end
 
@@ -60,12 +67,14 @@ end
 
 httpd_config 'ckan_default' do
   source 'ckan_default.erb'
+  instance 'ckan'
   variables ({ 'server_name' => 'localhost', 'processes' => '2', 'threads' => '15' })
   action :create
 end
 
 httpd_config 'datapusher' do
   source 'datapusher.erb'
+  instance 'datapusher'
   variables ({ 'server_name' => 'localhost', 'processes' => '2', 'threads' => '15' })
   action :create
 end
@@ -74,6 +83,7 @@ template '/etc/ckan/default/production.ini' do
   source 'production.ini.erb'
   variables ({
     'port' => '5000',
+    'site_url' => node['ckan']['site_url'],
     'session_secret' => '/LQ1h6/Sl0EFEF1maYhFs0Sxo',
     'instance_uuid' => '200e5ca3-cffd-47aa-a93e-4c40bb81ce2c',
     'postgresql_url' => 'postgresql://ckan_default:pass@localhost/ckan_default',
