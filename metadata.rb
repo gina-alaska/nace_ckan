@@ -7,3 +7,4 @@ long_description 'Installs/Configures nace-ckan'
 version '0.2.0'
 
 depends 'httpd', '= 0.3.5'
+depends 'solr', '~> 0.5.0'
