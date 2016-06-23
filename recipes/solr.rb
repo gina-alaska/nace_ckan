@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nace-ckan
-# Recipe:: production
+# Recipe:: solr
 #
 # The MIT License (MIT)
 #
@@ -24,29 +24,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "nace-ckan::default"
-
-if node['ckan']['solr_devel_env']
-  link '/opt/solr-4.10.4/example/solr/collection1/conf/schema.xml' do
-    to '/usr/lib/ckan/default/src/ckan/ckan/config/solr/schema.xml'
-    notifies :restart, 'service[solr]', :immediately
-  end
-
-  directory '/etc/solr/conf' do
-    recursive true
-  end
+cookbook_file '/opt/solr-4.10.4/example/solr/collection1/conf/schema.xml' do
+  source 'solr_schema.xml'
+  owner 'root'
+  group 'root'
+  mode 00644
+  notifies :restart, 'service[solr]', :immediately
 end
 
-execute 'init db' do
-  command 'ckan db init'
-  notifies :create, 'file[init-db]', :immediately
-  retries 1
-  retry_delay 5
-  not_if { ::File.exist?('/root/initialized-db') }
-end
-
-file 'init-db' do
-  path '/root/initialized-db'
-  action :nothing
-  notifies :restart, 'httpd_service[ckan]', :immediately
+directory '/etc/solr/conf' do
+  recursive true
 end

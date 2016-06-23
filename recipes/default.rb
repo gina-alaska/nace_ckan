@@ -89,7 +89,7 @@ template '/etc/ckan/default/production.ini' do
     'postgresql_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_name}",
     'postgresql_datastore_write_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_datastore_name}",
     'postgresql_datastore_read_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_datastore_name}",
-    'solr_url' => 'http://127.0.0.1:8983/solr',
+    'solr_url' => "#{node.ckan.solr_url}:8983/solr",
     'ckan_plugins' => 'stats text_view image_view recline_view',
     'ckan_default_views' => 'image_view text_view recline_view',
     'ckan_site_title' => 'CKAN',
