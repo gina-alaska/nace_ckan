@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nace-ckan
-# Recipe:: production
+# Recipe:: development
 #
 # The MIT License (MIT)
 #
@@ -25,6 +25,7 @@
 # THE SOFTWARE.
 
 include_recipe "nace-ckan::default"
+include_recipe "nace-ckan::solr"
 
 execute 'init db' do
   command 'ckan db init'

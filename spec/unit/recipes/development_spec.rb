@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nace-ckan
-# Recipe:: production
+# Spec:: default
 #
 # The MIT License (MIT)
 #
@@ -24,18 +24,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "nace-ckan::default"
 
-execute 'init db' do
-  command 'ckan db init'
-  notifies :create, 'file[init-db]', :immediately
-  retries 1
-  retry_delay 5
-  not_if { ::File.exist?('/root/initialized-db') }
-end
+require 'spec_helper'
 
-file 'init-db' do
-  path '/root/initialized-db'
-  action :nothing
-  notifies :restart, 'httpd_service[ckan]', :immediately
+describe 'nace-ckan::development' do
+  context 'When all attributes are default, on an unspecified platform' do
+    let(:chef_run) do
+      runner = ChefSpec::ServerRunner.new
+      runner.converge(described_recipe)
+    end
+
+    it 'converges successfully' do
+      expect { chef_run }.to_not raise_error
+    end
+  end
 end
