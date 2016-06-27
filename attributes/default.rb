@@ -1,4 +1,4 @@
-default['ckan']['db_name'] = "ckan"
+default['ckan']['db_name'] = "ckan_default"
 default['ckan']['db_datastore_name'] = "datastore_default"
 default['ckan']['db_username'] = "ckan_default"
 default['ckan']['db_password'] = "pass"
