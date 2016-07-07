@@ -16,5 +16,5 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[nace-ckan::default]
+      - recipe[nace-ckan::development]
     attributes:
