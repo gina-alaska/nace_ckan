@@ -8,3 +8,4 @@ version '0.4.0'
 
 depends 'httpd', '= 0.3.5'
 depends 'solr', '~> 0.5.0'
+depends 'postgresql', '~> 4.0.0'
