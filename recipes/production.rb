@@ -49,7 +49,7 @@ end
 
 git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
   repository 'https://github.com/gina-alaska/ckanext-nasa_ace.git'
-  checkout_branch 'nasa-ace-theme'
+  revision 'nasa-ace-theme'
   action :sync
 end
 
