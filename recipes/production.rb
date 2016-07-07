@@ -48,7 +48,7 @@ template '/etc/ckan/default/production.ini' do
 end
 
 git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
-  repository 'https://github.alaska.edu/gina/ckanext-nasa_ace.git'
+  repository 'https://github.com/gina-alaska/ckanext-nasa_ace.git'
   checkout_branch 'nasa-ace-theme'
   action :sync
 end
