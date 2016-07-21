@@ -79,6 +79,12 @@ httpd_config 'datapusher' do
   action :create
 end
 
+directory node['ckan']['storage_location'] do
+  owner 'www-data'
+  mode '0775'
+  recursive true
+end
+
 template '/etc/ckan/default/production.ini' do
   source 'production.ini.erb'
   variables ({
@@ -90,12 +96,14 @@ template '/etc/ckan/default/production.ini' do
     'postgresql_datastore_write_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_datastore_name}",
     'postgresql_datastore_read_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_datastore_name}",
     'solr_url' => "http://#{node.ckan.solr_url}:8983/solr",
-    'ckan_plugins' => 'stats text_view image_view recline_view',
-    'ckan_default_views' => 'image_view text_view recline_view',
+    'ckan_plugins' => 'stats text_view image_view recline_view resource_proxy geojson_view',
+    'ckan_default_views' => 'image_view text_view recline_view geojson_view',
     'ckan_site_title' => 'CKAN',
-    'ckan_site_logo_path' => '/base/images/ckan-logo.png',
-    'ckan_site_favicon' => '/images/icons/ckan.ico',
-    'ckan_datapusher_url' => 'http://127.0.0.1:8800/'
+    'ckan_site_logo_path' => node['ckan']['site_logo_path'],
+    'ckan_site_favicon' => node['ckan']['site_favicon'],
+    'ckan_datapusher_url' => 'http://127.0.0.1:8800/',
+    'ckan_storage_location' => node['ckan']['storage_location']
   })
   action :create
+  notifies :reload, 'httpd_service[ckan]', :delayed
 end

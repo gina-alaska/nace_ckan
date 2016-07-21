@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nace-ckan
-# Recipe:: production
+# Recipe:: plugins
 #
 # The MIT License (MIT)
 #
@@ -24,19 +24,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "nace-ckan::default"
-include_recipe "nace-ckan::plugins"
-
-execute 'init db' do
-  command 'ckan db init'
-  notifies :create, 'file[init-db]', :immediately
-  retries 1
-  retry_delay 5
-  not_if { ::File.exist?('/root/initialized-db') }
-end
-
-file 'init-db' do
-  path '/root/initialized-db'
-  action :nothing
-  notifies :restart, 'httpd_service[ckan]', :immediately
+script 'install_geoview_plugin' do
+  user 'root'
+  code <<-EOH
+    source /usr/lib/ckan/default/bin/activate
+    pip install ckanext-geoview
+  EOH
 end

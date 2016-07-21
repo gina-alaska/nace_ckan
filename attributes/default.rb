@@ -5,3 +5,6 @@ default['ckan']['db_password'] = "pass"
 default['ckan']['db_address'] = "localhost"
 default['ckan']['site_url'] = "http://localhost"
 default['ckan']['solr_url'] = "127.0.0.1"
+default['ckan']['storage_location'] = '/opt/ckan/data'
+default['ckan']['site_logo_path'] = ''
+default['ckan']['site_favicon'] = ''
