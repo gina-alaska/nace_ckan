@@ -29,6 +29,8 @@ apt_update 'system' do
   frequency 86_400
 end
 
+package 'git'
+
 package 'libpq5' do
   action :install
 end
