@@ -24,9 +24,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "nace-ckan::default"
-include_recipe "nace-ckan::solr"
-
 include_recipe 'postgresql::ruby'
 
 pg_connection_info = { host: '127.0.0.1' }
@@ -43,48 +40,5 @@ postgresql_database 'ckan_default' do
   owner 'ckan_default'
 end
 
-template '/etc/ckan/default/production.ini' do
-  source 'production.ini.erb'
-  variables ({
-    'port' => '5000',
-    'site_url' => node['ckan']['site_url'],
-    'session_secret' => '/LQ1h6/Sl0EFEF1maYhFs0Sxo',
-    'instance_uuid' => '200e5ca3-cffd-47aa-a93e-4c40bb81ce2c',
-    'postgresql_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_name}",
-    'postgresql_datastore_write_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_datastore_name}",
-    'postgresql_datastore_read_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_datastore_name}",
-    'solr_url' => "http://#{node.ckan.solr_url}:8983/solr",
-    'ckan_plugins' => 'stats text_view image_view recline_view nasa_ace',
-    'ckan_default_views' => 'image_view text_view recline_view nasa_ace',
-    'ckan_site_title' => 'DEV NASA Arctic Collaborative Environment',
-    'ckan_site_logo_path' => '/base/images/ace_title.png',
-    'ckan_site_favicon' => '/base/images/ace_logo.png',
-    'ckan_datapusher_url' => 'http://127.0.0.1:8800/'
-  })
-  action :create
-end
-
-git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
-  repository 'https://github.alaska.edu/gina/ckanext-nasa_ace.git'
-  checkout_branch 'nasa-ace-theme'
-  action :sync
-end
-
-bash 'install NASA ACE theme' do
-  code '/usr/lib/ckan/default/bin/python setup.py develop'
-  cwd '/usr/lib/ckan/default/src/ckanext-nasa_ace'
-end
-
-execute 'init db' do
-  command 'ckan db init'
-  notifies :create, 'file[init-db]', :immediately
-  retries 1
-  retry_delay 5
-  not_if { ::File.exist?('/root/initialized-db') }
-end
-
-file 'init-db' do
-  path '/root/initialized-db'
-  action :nothing
-  notifies :restart, 'httpd_service[ckan]', :immediately
-end
+include_recipe "nace-ckan::default"
+include_recipe "nace-ckan::solr"

@@ -24,10 +24,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-script 'install_geoview_plugin' do
-  user 'root'
-  code <<-EOH
-    source /usr/lib/ckan/default/bin/activate
-    pip install ckanext-geoview
+execute 'install_geoview_plugin' do
+  user node['ckan']['system_user']
+  group node['ckan']['system_group']
+  command <<-EOH
+    . /usr/lib/ckan/default/bin/activate && pip install ckanext-geoview
   EOH
 end

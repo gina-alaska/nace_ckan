@@ -65,6 +65,12 @@ end
 dpkg_package 'python-ckan_2.5-trusty_amd64.deb' do
   source "#{Chef::Config[:file_cache_path]}/python-ckan_2.5-trusty_amd64.deb"
   action :install
+  notifies :run, 'execute[fix_ckan_permissions]', :immediately
+end
+
+execute 'fix_ckan_permissions' do
+  command "chown -R #{node['ckan']['system_user']}:#{node['ckan']['system_group']} /usr/lib/ckan"
+  action :nothing
 end
 
 httpd_config 'ckan_default' do
@@ -82,10 +88,13 @@ httpd_config 'datapusher' do
 end
 
 directory node['ckan']['storage_location'] do
-  owner 'www-data'
+  owner node['ckan']['system_group']
   mode '0775'
   recursive true
 end
+
+include_recipe "nace-ckan::theme"
+include_recipe "nace-ckan::plugins"
 
 template '/etc/ckan/default/production.ini' do
   source 'production.ini.erb'
@@ -98,14 +107,19 @@ template '/etc/ckan/default/production.ini' do
     'postgresql_datastore_write_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_datastore_name}",
     'postgresql_datastore_read_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_datastore_name}",
     'solr_url' => "http://#{node.ckan.solr_url}:8983/solr",
-    'ckan_plugins' => 'stats text_view image_view recline_view resource_proxy geojson_view',
-    'ckan_default_views' => 'image_view text_view recline_view geojson_view',
-    'ckan_site_title' => 'CKAN',
+    'ckan_plugins' => 'stats text_view image_view recline_view nasa_ace resource_proxy geo_view geojson_view wmts_view',
+    'ckan_default_views' => 'image_view text_view recline_view nasa_ace geo_view geojson_view wmts_view',
+    'ckan_site_title' => node['ckan']['site_title'],
     'ckan_site_logo_path' => node['ckan']['site_logo_path'],
     'ckan_site_favicon' => node['ckan']['site_favicon'],
     'ckan_datapusher_url' => 'http://127.0.0.1:8800/',
-    'ckan_storage_location' => node['ckan']['storage_location']
+    'ckan_storage_location' => node['ckan']['storage_location'],
+    'ckanext_spatial_mapbox_id' => node['ckan']['spatial_mapbox_id'],
+    'ckanext_spatial_mapbox_token' => node['ckan']['spatial_mapbox_token']
   })
   action :create
   notifies :reload, 'httpd_service[ckan]', :delayed
 end
+
+include_recipe "nace-ckan::solr"
+include_recipe "nace-ckan::initdb"

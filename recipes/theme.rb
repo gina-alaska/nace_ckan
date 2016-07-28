@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nace-ckan
-# Recipe:: production
+# Recipe:: theme
 #
 # The MIT License (MIT)
 #
@@ -24,4 +24,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "nace-ckan::default"
+git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
+  user node['ckan']['system_user']
+  group node['ckan']['system_group']
+  repository 'https://github.com/gina-alaska/ckanext-nasa_ace.git'
+  revision 'nasa-ace-theme'
+  action :sync
+end
+
+bash 'install NASA ACE theme' do
+  code '/usr/lib/ckan/default/bin/python setup.py develop'
+  cwd '/usr/lib/ckan/default/src/ckanext-nasa_ace'
+end

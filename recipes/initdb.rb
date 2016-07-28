@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nace-ckan
-# Recipe:: production
+# Recipe:: initdb
 #
 # The MIT License (MIT)
 #
@@ -24,4 +24,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "nace-ckan::default"
+execute 'init db' do
+  command 'ckan db init'
+  notifies :create, 'file[init-db]', :immediately
+  retries 1
+  retry_delay 5
+  not_if { ::File.exist?('/root/initialized-db') }
+end
+
+file 'init-db' do
+  path '/root/initialized-db'
+  action :nothing
+  notifies :reload, 'httpd_service[ckan]', :immediately
+end
