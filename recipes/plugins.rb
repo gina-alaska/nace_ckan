@@ -28,6 +28,6 @@ execute 'install_geoview_plugin' do
   user node['ckan']['system_user']
   group node['ckan']['system_group']
   command <<-EOH
-    . /usr/lib/ckan/default/bin/activate && pip install ckanext-geoview
+    cd /usr/lib/ckan/default/src/ && git clone https://github.com/pduchesne/ckanext-geoview.git && cd ckanext-geoview && /usr/lib/ckan/default/bin/python setup.py develop
   EOH
 end
