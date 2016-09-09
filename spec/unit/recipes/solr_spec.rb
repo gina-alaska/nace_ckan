@@ -24,50 +24,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+
 require 'spec_helper'
 
-describe 'nace-ckan::default' do
-  context 'When all attributes are default, on Ubuntu 14.04' do
+describe 'nace-ckan::solr' do
+  context 'When all attributes are default, on an unspecified platform' do
     let(:chef_run) do
-      runner = ChefSpec::SoloRunner.new
+      runner = ChefSpec::ServerRunner.new
       runner.converge(described_recipe)
     end
 
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
-    end
-
-    it 'installs libpq5' do
-      expect(chef_run).to install_package('libpq5')
-    end
-
-    it 'install apache using httpd cookbook' do
-      expect(chef_run).to create_httpd_service('default')
-    end
-
-    it 'install mod_wsgi using httpd cookbook' do
-      expect(chef_run).to create_httpd_module('wsgi')
-    end
-
-    it 'installs nginx' do
-      expect(chef_run).to install_package('nginx')
-    end
-
-    it 'stops and disables nginx' do
-      expect(chef_run).to stop_service('nginx')
-      expect(chef_run).to disable_service('nginx')
-    end
-
-    it 'fetches the ckan .deb' do
-      expect(chef_run).to create_remote_file_if_missing('/var/chef/cache/python-ckan_2.5-trusty_amd64.deb').with(
-        source: 'http://packaging.ckan.org/python-ckan_2.5-trusty_amd64.deb'
-      )
-    end
-
-    it 'installs ckan' do
-      expect(chef_run).to install_dpkg_package('python-ckan_2.5-trusty_amd64.deb').with(
-        source: '/var/chef/cache/python-ckan_2.5-trusty_amd64.deb'
-      )
     end
   end
 end

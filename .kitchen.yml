@@ -12,10 +12,12 @@ provisioner:
 
 platforms:
   - name: ubuntu-14.04
-  - name: centos-7.1
 
 suites:
   - name: default
     run_list:
-      - recipe[nace-ckan::default]
+      - recipe[nace-ckan::development]
     attributes:
+      ckan:
+        system_user: vagrant
+        system_group: vagrant
