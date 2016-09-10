@@ -88,7 +88,8 @@ httpd_config 'datapusher' do
 end
 
 directory node['ckan']['storage_location'] do
-  owner node['ckan']['system_group']
+  owner node['ckan']['system_user']
+  group node['ckan']['system_group']
   mode '0775'
   recursive true
 end
@@ -103,9 +104,9 @@ template '/etc/ckan/default/production.ini' do
     'site_url' => node['ckan']['site_url'],
     'session_secret' => '/LQ1h6/Sl0EFEF1maYhFs0Sxo',
     'instance_uuid' => '200e5ca3-cffd-47aa-a93e-4c40bb81ce2c',
-    'postgresql_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_name}",
-    'postgresql_datastore_write_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_datastore_name}",
-    'postgresql_datastore_read_url' => "postgresql://#{node.ckan.db_username}:#{node.ckan.db_password}@#{node.ckan.db_address}/#{node.ckan.db_datastore_name}",
+    'postgresql_url' => "postgresql://#{node['ckan']['db_username']}:#{node['ckan']['db_password']}@#{node['ckan']['db_address']}/#{node['ckan']['db_name']}",
+    'postgresql_datastore_write_url' => "postgresql://#{node['ckan']['db_username']}:#{node['ckan']['db_password']}@#{node['ckan']['db_address']}/#{node['ckan']['db_datastore_name']}",
+    'postgresql_datastore_read_url' => "postgresql://#{node['ckan']['db_username']}:#{node['ckan']['db_password']}@#{node['ckan']['db_address']}/#{node['ckan']['db_datastore_name']}",
     'solr_url' => "http://#{node.ckan.solr_url}:8983/solr",
     'ckan_plugins' => 'stats text_view image_view recline_view nasa_ace resource_proxy geo_view geojson_view wmts_view',
     'ckan_default_views' => 'image_view text_view recline_view nasa_ace geo_view geojson_view wmts_view',
@@ -121,5 +122,4 @@ template '/etc/ckan/default/production.ini' do
   notifies :reload, 'httpd_service[ckan]', :delayed
 end
 
-include_recipe "nace-ckan::solr"
 include_recipe "nace-ckan::initdb"

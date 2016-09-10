@@ -24,6 +24,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+include_recipe 'solr::default'
+
 cookbook_file '/opt/solr-4.10.4/example/solr/collection1/conf/schema.xml' do
   source 'solr_schema.xml'
   owner 'root'
@@ -32,6 +34,6 @@ cookbook_file '/opt/solr-4.10.4/example/solr/collection1/conf/schema.xml' do
   notifies :restart, 'service[solr]', :immediately
 end
 
-directory '/etc/solr/conf' do
-  recursive true
-end
+# directory '/etc/solr/conf' do
+#   recursive true
+# end
