@@ -24,10 +24,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-execute 'install_geoview_plugin' do
+geoview_path = ::File.join(node['ckan']['install_path'], 'ckanext-geoview')
+git geoview_path do
+  repository 'https://github.com/pduchesne/ckanext-geoview.git'
   user node['ckan']['system_user']
   group node['ckan']['system_group']
+  notifies :run, 'execute[install_geoview_plugin]', :immediately
+end
+
+execute 'install_geoview_plugin' do
+  cwd geoview_path
   command <<-EOH
-    cd /usr/lib/ckan/default/src/ && git clone https://github.com/pduchesne/ckanext-geoview.git && cd ckanext-geoview && /usr/lib/ckan/default/bin/python setup.py develop
+    /usr/lib/ckan/default/bin/python setup.py develop
   EOH
+  action :nothing
 end

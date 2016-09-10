@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nace-ckan
-# Spec:: default
+# Spec:: database_server
 #
 # The MIT License (MIT)
 #
@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe 'nace-ckan::development' do
+describe 'nace-ckan::database_server' do
   context 'When all attributes are default, on an unspecified platform' do
     let(:chef_run) do
       runner = ChefSpec::ServerRunner.new
