@@ -22,4 +22,3 @@ suites:
     attributes:
       ckan:
         system_user: vagrant
-        # system_group: vagrant
