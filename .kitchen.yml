@@ -16,8 +16,10 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[nace-ckan::development]
+      - recipe[nace-ckan::database_server]
+      - recipe[nace-ckan::solr]
+      - recipe[nace-ckan::default]
     attributes:
       ckan:
         system_user: vagrant
-        system_group: vagrant
+        # system_group: vagrant

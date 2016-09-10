@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nace-ckan
-# Recipe:: production
+# Recipe:: database_server
 #
 # The MIT License (MIT)
 #
@@ -24,4 +24,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "nace-ckan::default"
+include_recipe 'postgresql::client'
+include_recipe 'postgresql::server'
+include_recipe 'postgresql::ruby'
+
+pg_connection_info = { host: '127.0.0.1' }
+
+postgresql_database_user node['ckan']['db_username'] do
+  connection pg_connection_info
+  password node['ckan']['db_password']
+  action :create
+end
+
+postgresql_database 'ckan_default' do
+  connection pg_connection_info
+  encoding 'UTF8'
+  owner 'ckan_default'
+end

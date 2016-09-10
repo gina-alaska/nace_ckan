@@ -13,3 +13,6 @@ default['ckan']['system_user'] = ''
 default['ckan']['system_group'] = 'www-data'
 default['ckan']['spatial_mapbox_id'] = 'gina-alaska.heb1gpfg'
 default['ckan']['spatial_mapbox_token'] = ''
+default['ckan']['install_path'] = '/usr/lib/ckan/default/src/'
+
+# default['solr']['data_dir'] = '/opt/solr/ckan'
