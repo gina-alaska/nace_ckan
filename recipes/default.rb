@@ -96,6 +96,7 @@ end
 
 include_recipe "nace-ckan::theme"
 include_recipe "nace-ckan::plugins"
+include_recipe "nace-ckan::private-datasets"
 
 template '/etc/ckan/default/production.ini' do
   source 'production.ini.erb'
@@ -108,7 +109,7 @@ template '/etc/ckan/default/production.ini' do
     'postgresql_datastore_write_url' => "postgresql://#{node['ckan']['db_username']}:#{node['ckan']['db_password']}@#{node['ckan']['db_address']}/#{node['ckan']['db_datastore_name']}",
     'postgresql_datastore_read_url' => "postgresql://#{node['ckan']['db_username']}:#{node['ckan']['db_password']}@#{node['ckan']['db_address']}/#{node['ckan']['db_datastore_name']}",
     'solr_url' => "http://#{node.ckan.solr_url}:8983/solr",
-    'ckan_plugins' => 'stats text_view image_view recline_view nasa_ace resource_proxy geo_view geojson_view wmts_view',
+    'ckan_plugins' => 'stats text_view image_view recline_view nasa_ace resource_proxy geo_view geojson_view wmts_view group_private_datasets',
     'ckan_default_views' => 'image_view text_view recline_view nasa_ace geo_view geojson_view wmts_view',
     'ckan_site_title' => node['ckan']['site_title'],
     'ckan_site_logo_path' => node['ckan']['site_logo_path'],
