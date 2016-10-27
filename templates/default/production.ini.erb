@@ -72,6 +72,16 @@ ckan.auth.create_user_via_api = false
 ckan.auth.create_user_via_web = true
 ckan.auth.roles_that_cascade_to_sub_groups = admin
 
+<% if node['ckan']['aws_access_key_id'] != '' && node['ckan']['aws_secret_access_key'] != '' && node['ckan']['aws_bucket_name'] != '' && node['ckan']['aws_storage_path'] != '' -%>
+## S3FileStore Configuration
+
+ckanext.s3filestore.check_access_on_startup = true
+ckanext.s3filestore.aws_access_key_id = <%= node['ckan']['aws_access_key_id'] %>
+ckanext.s3filestore.aws_secret_access_key = <%= node['ckan']['aws_secret_access_key'] %>
+ckanext.s3filestore.aws_bucket_name = <%= node['ckan']['aws_bucket_name'] %>
+ckanext.s3filestore.aws_storage_path = <%= node['ckan']['aws_storage_path'] %>
+ckanext.s3filestore.filesystem_download_fallback = False
+<% end -%>
 
 ## Search Settings
 

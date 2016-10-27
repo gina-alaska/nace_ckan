@@ -98,6 +98,13 @@ include_recipe "nace-ckan::theme"
 include_recipe "nace-ckan::plugins"
 include_recipe "nace-ckan::private-datasets"
 
+ckan_plugins_list = 'stats text_view image_view recline_view nasa_ace resource_proxy geo_view geojson_view wmts_view group_private_datasets'
+
+if (node['ckan']['aws_access_key_id'] != '' && node['ckan']['aws_secret_access_key'] != '' && node['ckan']['aws_bucket_name'] != '' && node['ckan']['aws_storage_path'] != '')
+  include_recipe "nace-ckan::s3filestore"
+  ckan_plugins_list = 'stats text_view image_view recline_view nasa_ace resource_proxy geo_view geojson_view wmts_view group_private_datasets s3filestore'
+end
+
 template '/etc/ckan/default/production.ini' do
   source 'production.ini.erb'
   variables ({
@@ -109,12 +116,12 @@ template '/etc/ckan/default/production.ini' do
     'postgresql_datastore_write_url' => "postgresql://#{node['ckan']['db_username']}:#{node['ckan']['db_password']}@#{node['ckan']['db_address']}/#{node['ckan']['db_datastore_name']}",
     'postgresql_datastore_read_url' => "postgresql://#{node['ckan']['db_username']}:#{node['ckan']['db_password']}@#{node['ckan']['db_address']}/#{node['ckan']['db_datastore_name']}",
     'solr_url' => "http://#{node.ckan.solr_url}:8983/solr",
-    'ckan_plugins' => 'stats text_view image_view recline_view nasa_ace resource_proxy geo_view geojson_view wmts_view group_private_datasets',
+    'ckan_plugins' => "#{ckan_plugins_list}",
     'ckan_default_views' => 'image_view text_view recline_view nasa_ace geo_view geojson_view wmts_view',
     'ckan_site_title' => node['ckan']['site_title'],
     'ckan_site_logo_path' => node['ckan']['site_logo_path'],
     'ckan_site_favicon' => node['ckan']['site_favicon'],
-    'ckan_datapusher_url' => 'http://127.0.0.1:8800/',
+    'ckan_datapusher_url' => "#{node['ckan']['site_url']}:8800/',
     'ckan_storage_location' => node['ckan']['storage_location'],
     'ckanext_spatial_mapbox_id' => node['ckan']['spatial_mapbox_id'],
     'ckanext_spatial_mapbox_token' => node['ckan']['spatial_mapbox_token']
