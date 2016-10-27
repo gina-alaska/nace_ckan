@@ -121,7 +121,7 @@ template '/etc/ckan/default/production.ini' do
     'ckan_site_title' => node['ckan']['site_title'],
     'ckan_site_logo_path' => node['ckan']['site_logo_path'],
     'ckan_site_favicon' => node['ckan']['site_favicon'],
-    'ckan_datapusher_url' => "#{node['ckan']['site_url']}:8800/',
+    'ckan_datapusher_url' => "#{node['ckan']['site_url']}:8800/",
     'ckan_storage_location' => node['ckan']['storage_location'],
     'ckanext_spatial_mapbox_id' => node['ckan']['spatial_mapbox_id'],
     'ckanext_spatial_mapbox_token' => node['ckan']['spatial_mapbox_token']
