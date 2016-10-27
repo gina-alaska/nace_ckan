@@ -36,3 +36,13 @@ bash 'install CKAN extension for s3filestore' do
   code '/usr/lib/ckan/default/bin/python setup.py develop'
   cwd '/usr/lib/ckan/default/src/ckanext-s3filestore'
 end
+
+pip_requirements '/usr/lib/ckan/default/src/ckanext-s3filestore/dev-requirements.txt' do
+  python '/usr/lib/ckan/default/bin/python'
+  action :install
+end
+
+pip_requirements '/usr/lib/ckan/default/src/ckanext-s3filestore/requirements.txt' do
+  python '/usr/lib/ckan/default/bin/python'
+  action :install
+end
