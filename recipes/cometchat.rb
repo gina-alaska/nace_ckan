@@ -32,6 +32,15 @@ end
 package 'php5'
 package 'php5-mysql'
 
+remote_file '/var/www/cometchat.zip' do
+  source 'https://s3-us-west-2.amazonaws.com/gina-packages/cometchat.zip'
+  owner 'www-data'
+  group 'www-data'
+  mode '0755'
+  action :create_if_missing
+  notifies :run, 'execute[unzip_commetchat]', :immediately
+end
+
 execute "unzip_cometchat" do
   command 'unzip /var/www/cometchat.zip'
   cwd '/var/www/'
@@ -49,15 +58,6 @@ template '/var/www/cometchat/integration.php' do
     })
   action :nothing
   notifies :create, 'httpd_config[cometchat]', :immediately
-end
-
-remote_file '/var/www/cometchat.zip' do
-  source 'https://s3-us-west-2.amazonaws.com/gina-packages/cometchat.zip'
-  owner 'www-data'
-  group 'www-data'
-  mode '0755'
-  action :create_if_missing
-  notifies :run, 'execute[unzip_commetchat]', :immediately
 end
 
 httpd_config 'cometchat' do
