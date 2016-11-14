@@ -38,10 +38,10 @@ remote_file '/var/www/cometchat.zip' do
   group 'www-data'
   mode '0755'
   action :create_if_missing
-  notifies :run, 'execute[unzip_commetchat]', :immediately
+  notifies :run, 'execute[unzip_cometchat]', :immediately
 end
 
-execute "unzip_cometchat" do
+execute 'unzip_cometchat' do
   command 'unzip /var/www/cometchat.zip'
   cwd '/var/www/'
   action :nothing
