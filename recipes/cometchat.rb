@@ -68,6 +68,10 @@ httpd_config 'cometchat' do
   notifies :get, 'http_request[install_cometchat]', :immediately
 end
 
+http_config 'cometchat' do
+  action :nothing
+end
+
 file '/var/www/cometchat/install.php' do
   action :nothing
   notifies :reload, 'httpd_service[cometchat]', :delayed
