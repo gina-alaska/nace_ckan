@@ -71,12 +71,12 @@ httpd_config 'cometchat' do
   instance 'cometchat'
   variables ({ 'server_name' => 'localhost' })
   action :nothing
-  notifies :get, 'http_request[install_cometchat]', :immediately
+  notifies :reload, 'httpd_service[cometchat]', :immediately
+  notifies :get, 'http_request[install_cometchat]', :delayed
 end
 
 file '/var/www/cometchat/install.php' do
   action :nothing
-  notifies :reload, 'httpd_service[cometchat]', :delayed
 end
 
 #if File.exist?('/var/www/cometchat/install.php')
