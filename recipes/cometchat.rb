@@ -68,7 +68,7 @@ httpd_config 'cometchat' do
   notifies :get, 'http_request[install_cometchat]', :immediately
 end
 
-http_config 'cometchat' do
+httpd_service 'cometchat' do
   action :nothing
 end
 
