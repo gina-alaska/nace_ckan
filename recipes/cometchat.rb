@@ -38,6 +38,11 @@ httpd_module 'rewrite' do
   action :create
 end
 
+httpd_module 'php5' do
+  instance 'cometchat'
+  action :create
+end
+
 httpd_service 'cometchat' do
   action [:create, :start]
   listen_ports ['80']
