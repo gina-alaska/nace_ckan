@@ -88,6 +88,6 @@ end
 http_request 'install_cometchat' do
   url 'http://localhost/install.php'
   action :nothing
-  notifies :delete, 'file[/var/www/cometchat/install.php]', :immediately
+  # notifies :delete, 'file[/var/www/cometchat/install.php]', :immediately
 end
 #end
