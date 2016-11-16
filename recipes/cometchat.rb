@@ -45,7 +45,7 @@ end
 
 httpd_module 'mpm_event' do
   instance 'cometchat'
-  action :remove
+  action :delete
 end
 
 httpd_module 'mpm_prefork' do
