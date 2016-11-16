@@ -29,6 +29,9 @@ apt_update 'system' do
   frequency 86_400
 end
 
+package 'apache2'
+package 'php5'
+package 'php5-mysql'
 package 'unzip'
 
 httpd_module 'rewrite' do
@@ -44,6 +47,11 @@ end
 httpd_service 'cometchat' do
   action [:create, :start]
   listen_ports ['80']
+end
+
+httpd_module 'mpm_prefork' do
+  instance 'cometchat'
+  action :create
 end
 
 cookbook_file '/var/www/cometchat.zip' do
