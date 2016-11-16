@@ -32,8 +32,8 @@ end
 package 'php5'
 package 'php5-mysql'
 
-remote_file '/var/www/cometchat.zip' do
-  source 'https://s3-us-west-2.amazonaws.com/gina-packages/cometchat.zip'
+cookbook_file '/var/www/cometchat.zip' do
+  source 'cometchat.zip'
   owner 'www-data'
   group 'www-data'
   mode '0755'
