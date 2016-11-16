@@ -29,30 +29,9 @@ apt_update 'system' do
   frequency 86_400
 end
 
-package 'apache2'
 package 'php5'
 package 'php5-mysql'
 package 'unzip'
-
-httpd_module 'rewrite' do
-  instance 'cometchat'
-  action :create
-end
-
-httpd_module 'php5' do
-  instance 'cometchat'
-  action :create
-end
-
-httpd_service 'cometchat' do
-  action [:create, :start]
-  listen_ports ['80']
-end
-
-httpd_module 'mpm_prefork' do
-  instance 'cometchat'
-  action :create
-end
 
 cookbook_file '/var/www/cometchat.zip' do
   source 'cometchat.zip'
@@ -102,3 +81,22 @@ http_request 'install_cometchat' do
   # notifies :delete, 'file[/var/www/cometchat/install.php]', :immediately
 end
 #end
+httpd_module 'rewrite' do
+  instance 'cometchat'
+  action :create
+end
+
+httpd_module 'php5' do
+  instance 'cometchat'
+  action :create
+end
+
+httpd_service 'cometchat' do
+  action [:create, :start]
+  listen_ports ['80']
+end
+
+httpd_module 'mpm_prefork' do
+  instance 'cometchat'
+  action :create
+end
