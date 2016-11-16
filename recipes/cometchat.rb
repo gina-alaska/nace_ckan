@@ -94,9 +94,5 @@ end
 httpd_service 'cometchat' do
   action [:create, :start]
   listen_ports ['80']
-end
-
-httpd_module 'mpm_prefork' do
-  instance 'cometchat'
-  action :create
+  mpm 'prefork'
 end
