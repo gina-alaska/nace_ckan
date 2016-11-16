@@ -31,6 +31,7 @@ end
 
 package 'php5'
 package 'php5-mysql'
+package 'unzip'
 
 cookbook_file '/var/www/cometchat.zip' do
   source 'cometchat.zip'
