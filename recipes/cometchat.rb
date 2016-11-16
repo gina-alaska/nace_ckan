@@ -33,6 +33,11 @@ package 'php5'
 package 'php5-mysql'
 package 'unzip'
 
+httpd_service 'cometchat' do
+  action [:create, :start]
+  listen_ports ['80']
+end
+
 cookbook_file '/var/www/cometchat.zip' do
   source 'cometchat.zip'
   owner 'www-data'
@@ -67,10 +72,6 @@ httpd_config 'cometchat' do
   variables ({ 'server_name' => 'localhost' })
   action :nothing
   notifies :get, 'http_request[install_cometchat]', :immediately
-end
-
-httpd_service 'cometchat' do
-  action :nothing
 end
 
 file '/var/www/cometchat/install.php' do
