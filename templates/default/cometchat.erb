@@ -7,6 +7,7 @@
   LogFormat "%h %l %u %t \"%r\" %>s %O \"{Referer}i\" \"%{User-Agent}i\"" combined
 
   <Directory />
+    AddType application/x-httpd-php .php
     AllowOverride all
   </Directory>
 </VirtualHost>
