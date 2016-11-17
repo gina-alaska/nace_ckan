@@ -46,6 +46,16 @@ execute 'unzip_cometchat' do
   command 'unzip /var/www/cometchat.zip'
   cwd '/var/www/'
   action :nothing
+  notifies :create, "template[/var/www/cometchat/config.php]", :immediately
+end
+
+template '/var/www/cometchat/config.php' do
+  source 'cometchat_config.erb'
+  variables ({
+      'chat_server_url' => node['cometchat']['chat_url'],
+      'ckan_server_url' => node['ckan']['site_url']
+  })
+  action :nothing
   notifies :create, "template[/var/www/cometchat/integration.php]", :immediately
 end
 
@@ -64,7 +74,7 @@ end
 httpd_config 'cometchat' do
   source 'cometchat.erb'
   instance 'cometchat'
-  variables ({ 'server_name' => 'localhost' })
+  variables ({ 'chat_server_name' => node['cometchat']['chat_hostname'] })
   action :nothing
   notifies :reload, 'httpd_service[cometchat]', :immediately
   notifies :get, 'http_request[install_cometchat]', :delayed
