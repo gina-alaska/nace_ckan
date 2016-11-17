@@ -68,6 +68,18 @@ template '/var/www/cometchat/integration.php' do
       'db_password' => node['cometchat']['db_password']
     })
   action :nothing
+  notifies :run, 'execute[fix_chat_permissions]', :immediately
+end
+
+execute 'fix_chat_permissions' do
+  command "chown -R #{node['cometchat']['system_user']}:#{node['cometchat']['system_group']} /var/www/cometchat"
+  action :nothing
+  notifies :run, 'execute[fix_chat_directory_mode]', :immediately
+end
+
+execute 'fix_chat_writeable_directory_mode' do
+  command "chmod -R 777 /var/www/cometchat/writable"
+  action :nothing
   notifies :create, 'httpd_config[cometchat]', :immediately
 end
 

@@ -22,6 +22,8 @@ default['ckan']['aws_bucket_name'] = ''
 default['ckan']['aws_storage_path'] = ''
 
 # Attributes for CometChat
+default['cometchat']['system_user'] = 'www-data'
+default['cometchat']['system_group'] = 'www-data'
 default['cometchat']['chat_url'] = 'http://localhost'
 default['cometchat']['chat_hostname'] = 'localhost'
 default['cometchat']['db_host'] = ''

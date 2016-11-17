@@ -100,9 +100,9 @@ if(USE_CCAUTH == '1'){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /* BASE URL START */
-define('BASE_URL',setConfigValue('BASE_URL','<%= @chat_server_url %>/cometchat/'));
+define('BASE_URL',setConfigValue('BASE_URL','<%= @chat_server_url %>'));
 if(!defined('BASE_URL')) {
-  define('BASE_URL',setConfigValue('BASE_URL','<%= @chat_server_url %>/cometchat/'));
+  define('BASE_URL',setConfigValue('BASE_URL','<%= @chat_server_url %>'));
 }
 
 /* BASE URL END */
