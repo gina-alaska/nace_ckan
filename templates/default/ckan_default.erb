@@ -12,10 +12,10 @@ WSGISocketPrefix /var/run/wsgi
 
     WSGIProcessGroup ckan_default
 
-    ErrorLog /var/log/apache2/<%= @server_name %>.error.log
-    CustomLog /var/log/apache2/<%= @server_name %>.custom.log combined
+    ErrorLog /var/log/apache2-ckan/<%= @server_name %>.error.log
+    CustomLog /var/log/apache2-ckan/<%= @server_name %>.custom.log combined
     LogFormat "%h %l %u %t \"%r\" %>s %O \"{Referer}i\" \"%{User-Agent}i\"" combined
-    
+
     <Directory />
     Require all granted
     </Directory>

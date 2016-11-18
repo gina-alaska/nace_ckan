@@ -21,6 +21,14 @@ default['ckan']['aws_secret_access_key'] = ''
 default['ckan']['aws_bucket_name'] = ''
 default['ckan']['aws_storage_path'] = ''
 
+# Attributes for LoopBack
+default['loopback']['username'] = ''
+default['loopback']['password'] = ''
+default['loopback']['email'] = ''
+default['loopback']['login_url'] = ''
+default['loopback']['user_url'] = ''
+default['loopback']['group_url'] = ''
+
 # Attributes for CometChat
 default['cometchat']['system_user'] = 'www-data'
 default['cometchat']['system_group'] = 'www-data'
