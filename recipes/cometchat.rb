@@ -110,7 +110,7 @@ end
 template '/tmp/import_users.sh' do
   source 'import_users.erb'
   variables ({
-      'pgsql_passwd' => node['ckan']['db_password'],
+      'pgsql_password' => node['ckan']['db_password'],
       'pgsql_user' => node['ckan']['db_username'],
       'pgsql_db_name' => node['ckan']['db_name'],
       'pgsql_db_host' => node['ckan']['db_address'],
