@@ -124,7 +124,7 @@ template '/tmp/import_users.sh' do
 end
 
 execute 'import_users' do
-  command 'bash /tmp/import_users.erb'
+  command 'bash /tmp/import_users.sh'
   action :nothing
 end
 
