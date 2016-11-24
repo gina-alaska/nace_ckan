@@ -31,6 +31,9 @@ end
 
 package 'php5'
 package 'php5-mysql'
+package 'postgresql-client'
+package 'mysql-client'
+package 'php5-pgsql'
 package 'unzip'
 
 cookbook_file '/var/www/cometchat.zip' do
@@ -100,8 +103,31 @@ end
 http_request 'install_cometchat' do
   url 'http://localhost/install.php'
   action :nothing
+  notifies :create, 'template[/tmp/import_users.sh]', :immediately
   # notifies :delete, 'file[/var/www/cometchat/install.php]', :immediately
 end
+
+template '/tmp/import_users.sh' do
+  source 'import_users.erb'
+  variables ({
+      'pgsql_passwd' => node['ckan']['db_password'],
+      'pgsql_user' => node['ckan']['db_username'],
+      'pgsql_db_name' => node['ckan']['db_name'],
+      'pgsql_db_host' => node['ckan']['db_address'],
+      'mysql_host_name' => node['cometchat']['db_host'],
+      'mysql_user' => node['cometchat']['db_username'],
+      'mysql_password' => node['cometchat']['db_password'],
+      'mysql_db_name' => node['cometchat']['db_name']
+    })
+  action :nothing
+  notifies :run, 'execute[import_users]', :immediately
+end
+
+execute 'import_users' do
+  command 'bash /tmp/import_users.erb'
+  action :nothing
+end
+
 #end
 httpd_module 'rewrite' do
   instance 'cometchat'
@@ -109,6 +135,11 @@ httpd_module 'rewrite' do
 end
 
 httpd_module 'php5' do
+  instance 'cometchat'
+  action :create
+end
+
+httpd_module 'headers' do
   instance 'cometchat'
   action :create
 end
