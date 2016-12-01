@@ -21,4 +21,12 @@ default['ckan']['aws_secret_access_key'] = ''
 default['ckan']['aws_bucket_name'] = ''
 default['ckan']['aws_storage_path'] = ''
 
-# default['solr']['data_dir'] = '/opt/solr/ckan'
+# Attributes for CometChat
+default['cometchat']['system_user'] = 'www-data'
+default['cometchat']['system_group'] = 'www-data'
+default['cometchat']['chat_url'] = 'http://localhost'
+default['cometchat']['chat_hostname'] = 'localhost'
+default['cometchat']['db_host'] = ''
+default['cometchat']['db_name'] = ''
+default['cometchat']['db_username'] = ''
+default['cometchat']['db_password'] = ''
