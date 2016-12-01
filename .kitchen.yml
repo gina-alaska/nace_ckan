@@ -20,5 +20,8 @@ suites:
       - recipe[nace-ckan::solr]
       - recipe[nace-ckan::default]
     attributes:
+      postgresql:
+        password:
+          postgres: testing
       ckan:
         system_user: vagrant

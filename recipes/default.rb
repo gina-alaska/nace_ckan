@@ -115,7 +115,7 @@ template '/etc/ckan/default/production.ini' do
     'postgresql_url' => "postgresql://#{node['ckan']['db_username']}:#{node['ckan']['db_password']}@#{node['ckan']['db_address']}/#{node['ckan']['db_name']}",
     'postgresql_datastore_write_url' => "postgresql://#{node['ckan']['db_username']}:#{node['ckan']['db_password']}@#{node['ckan']['db_address']}/#{node['ckan']['db_datastore_name']}",
     'postgresql_datastore_read_url' => "postgresql://#{node['ckan']['db_username']}:#{node['ckan']['db_password']}@#{node['ckan']['db_address']}/#{node['ckan']['db_datastore_name']}",
-    'solr_url' => "http://#{node.ckan.solr_url}:8983/solr",
+    'solr_url' => "http://#{node['ckan']['solr_url']}:8983/solr",
     'ckan_plugins' => "#{ckan_plugins_list}",
     'ckan_default_views' => 'image_view text_view recline_view nasa_ace geo_view geojson_view wmts_view',
     'ckan_site_title' => node['ckan']['site_title'],
