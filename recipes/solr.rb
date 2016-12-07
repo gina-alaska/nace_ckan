@@ -24,8 +24,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-node.default['solr']['checksum'] = 'ac3543880f1b591bcaa962d7508b528d7b42e2b5548386197940b704629ae851'
-
 include_recipe 'solr::default'
 
 cookbook_file '/opt/solr-4.10.4/example/solr/collection1/conf/schema.xml' do
