@@ -55,8 +55,7 @@ end
 template '/var/www/cometchat/config.php' do
   source 'cometchat_config.erb'
   variables ({
-      'chat_server_url' => node['cometchat']['chat_url'],
-      'ckan_server_url' => node['ckan']['site_url']
+      'chat_server_url' => node['cometchat']['chat_url']
   })
   action :nothing
   notifies :create, "template[/var/www/cometchat/integration.php]", :immediately
