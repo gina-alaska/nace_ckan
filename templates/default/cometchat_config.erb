@@ -382,7 +382,7 @@ if (CROSS_DOMAIN == 0){
   define('ENCRYPT_USERID', '0');      //Set to 1 to encrypt userid
 }else{
   define('ENCRYPT_USERID', '0');
-  define('CC_SITE_URL', setConfigValue('CC_SITE_URL','<%= @ckan_server_url %>'));         // Enter Site URL only if Cross Domain is enabled.
+  define('CC_SITE_URL', setConfigValue('CC_SITE_URL','<%= @chat_server_url %>'));         // Enter Site URL only if Cross Domain is enabled.
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

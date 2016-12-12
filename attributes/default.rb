@@ -15,6 +15,9 @@ default['ckan']['spatial_mapbox_id'] = 'gina-alaska.heb1gpfg'
 default['ckan']['spatial_mapbox_token'] = ''
 default['ckan']['install_path'] = '/usr/lib/ckan/default/src/'
 
+# Solr default attributes
+override['solr']['checksum'] = 'ac3543880f1b591bcaa962d7508b528d7b42e2b5548386197940b704629ae851'
+
 # Attributes for using AWS S3 Bucket for shared storage
 default['ckan']['aws_access_key_id'] = ''
 default['ckan']['aws_secret_access_key'] = ''

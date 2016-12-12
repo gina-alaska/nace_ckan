@@ -32,6 +32,28 @@ git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
   action :sync
 end
 
+if node['cometchat']['chat_url'] != 'http://localhost'
+  directory '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/templates/snippets/' do
+    action :create
+  end
+
+  template '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/templates/snippets/cometchat-css.html' do
+    source 'cometchat-css.html.erb'
+    variables ({
+        'cometchat_url' => node['cometchat']['chat_url']
+    })
+    action :create
+  end
+
+  template '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/templates/snippets/cometchat-js.html' do
+    source 'cometchat-js.html.erb'
+    variables ({
+        'cometchat_url' => node['cometchat']['chat_url']
+      })
+    action :create
+  end
+end
+
 bash 'install NASA ACE theme' do
   code '/usr/lib/ckan/default/bin/python setup.py develop'
   cwd '/usr/lib/ckan/default/src/ckanext-nasa_ace'
