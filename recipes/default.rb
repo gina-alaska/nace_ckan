@@ -102,7 +102,12 @@ ckan_plugins_list = 'stats text_view image_view recline_view nasa_ace resource_p
 
 if (node['ckan']['aws_access_key_id'] != '' && node['ckan']['aws_secret_access_key'] != '' && node['ckan']['aws_bucket_name'] != '' && node['ckan']['aws_storage_path'] != '')
   include_recipe "nace-ckan::s3filestore"
-  ckan_plugins_list = 'stats text_view image_view recline_view nasa_ace resource_proxy geo_view geojson_view wmts_view group_private_datasets s3filestore'
+  ckan_plugins_list = ckan_plugins_list + ' s3filestore'
+end
+
+if (node['loopback']['username'] != '' && node['loopback']['password'] != '' && node['loopback']['email'] != '' && node['loopback']['login_url'] != '' && node['loopback']['user_url'] != '' && node['loopback']['group_url'] != '')
+  include_recipe "nace-ckan::loopback"
+  ckan_plugins_list = ckan_plugins_list + ' loopback'
 end
 
 template '/etc/ckan/default/production.ini' do

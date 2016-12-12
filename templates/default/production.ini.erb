@@ -83,6 +83,23 @@ ckanext.s3filestore.aws_storage_path = <%= node['ckan']['aws_storage_path'] %>
 ckanext.s3filestore.filesystem_download_fallback = False
 <% end -%>
 
+<% if node['loopback']['username'] != '' && node['loopback']['password'] != '' &&
+   node['loopback']['email'] != '' && node['loopback']['login_url'] != '' &&
+   node['loopback']['user_url'] != '' && node['loopback']['group_url'] != '' -%>
+
+## Loopback Configuration
+
+# LoopBack admin account credentials.
+ckan.loopback.username = <%= node['loopback']['username'] %>
+ckan.loopback.password = <%= node['loopback']['password'] %>
+ckan.loopback.email = <%= node['loopback']['email'] %>
+
+# Make sure to use HTTPS for all these URLs.
+ckan.loopback.login_url = <%= node['loopback']['login_url'] %>
+ckan.loopback.user_url = <%= node['loopback']['user_url'] %>
+ckan.loopback.group_url = <%= node['loopback']['group_url'] %>
+<% end -%>
+
 ## Search Settings
 
 ckan.site_id = default
