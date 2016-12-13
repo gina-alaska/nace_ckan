@@ -11,3 +11,9 @@ mysql -u <%= @mysql_user %> -p<%= @mysql_password %> -h <%= @mysql_host_name %> 
 
 # Populate the table with any new users that are not already in the database.
 mysql -u <%= @mysql_user %> -p<%= @mysql_password %> -h <%= @mysql_host_name %> -D <%= @mysql_db_name %> --local-infile=1 -e "LOAD DATA LOCAL INFILE '/tmp/cometchat_users.csv' INTO TABLE users FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS"
+
+# Dump the CometChat IDs for all users
+mysql -u cometchat -pcometchatpass -h cometchat-db-dev.chfbmmfm9k4h.us-west-2.rds.amazonaws.com -D cometchat -e "SELECT * FROM users" > /tmp/cometchat_ids.csv
+
+# Update the PostgreSQL database with the CometChat IDs
+cat /tmp/cometchat_ids.csv | tail -n +1 | while read line; do awk '{system("PGPASSWORD=<%= @pgsql_password %> psql -U <%= @pgsql_user %> -d <%= @pgsql_db_name %> -h <%= @pgsql_db_host %> -c \"UPDATE public.user SET cc_id="$2" WHERE name='\''"$1"'\''\"")}'; done
