@@ -54,6 +54,8 @@ end
 
 template '/var/www/cometchat/config.php' do
   source 'cometchat_config.erb'
+  owner node['cometchat']['system_user']
+  group node['cometchat']['system_group']
   variables ({
       'chat_server_url' => node['cometchat']['chat_url']
   })
@@ -63,6 +65,8 @@ end
 
 template '/var/www/cometchat/integration.php' do
   source 'cometchat_integration.erb'
+  owner node['cometchat']['system_user']
+  group node['cometchat']['system_group']
   variables ({
       'db_host' => node['cometchat']['db_host'],
       'db_name' => node['cometchat']['db_name'],
@@ -100,7 +104,7 @@ end
 
 #if File.exist?('/var/www/cometchat/install.php')
 http_request 'install_cometchat' do
-  url 'http://localhost/install.php'
+  url "http://#{node['cometchat']['chat_url']}/install.php"
   action :nothing
   notifies :create, 'template[/tmp/import_users.sh]', :immediately
   # notifies :delete, 'file[/var/www/cometchat/install.php]', :immediately

@@ -135,4 +135,19 @@ template '/etc/ckan/default/production.ini' do
   notifies :reload, 'httpd_service[ckan]', :delayed
 end
 
+template '/tmp/import_users.sh' do
+  source 'import_users.erb'
+  variables ({
+      'pgsql_password' => node['ckan']['db_password'],
+      'pgsql_user' => node['ckan']['db_username'],
+      'pgsql_db_name' => node['ckan']['db_name'],
+      'pgsql_db_host' => node['ckan']['db_address'],
+      'mysql_host_name' => node['cometchat']['db_host'],
+      'mysql_user' => node['cometchat']['db_username'],
+      'mysql_password' => node['cometchat']['db_password'],
+      'mysql_db_name' => node['cometchat']['db_name']
+    })
+  action :create_if_missing
+end
+
 include_recipe "nace-ckan::initdb"

@@ -3,8 +3,10 @@
 # Collect all of the users currently in the CKAN database for integration into the CometChat database.
 PGPASSWORD=<%= @pgsql_password %> psql -U <%= @pgsql_user %> -d <%= @pgsql_db_name %> -h <%= @pgsql_db_host %> -c "COPY public.user(name) TO stdout DELIMITER ',' CSV HEADER" > /tmp/cometchat_users.csv
 
-# Add the column cc_id (cometchat_id) to Postgresql database. Can error, need to figure out Postgres exceptions
+if <% node['cometchat']['on_startup'] -%>
+# Add the column cc_id (cometchat_id) to Postgresql database. Only available in initial creation of CometChat server.
 PGPASSWORD=<%= @pgsql_password %> psql -U <%= @pgsql_user %> -d <%= @pgsql_db_name %> -h <%= @pgsql_db_host %> -c "ALTER TABLE public.user ADD COLUMN cc_id text"
+<% end -%>
 
 # Create a table for the users of CometChat if one doesn't already exist.
 mysql -u <%= @mysql_user %> -p<%= @mysql_password %> -h <%= @mysql_host_name %> -D <%= @mysql_db_name %> -e "CREATE TABLE IF NOT EXISTS users(name VARCHAR(100) UNIQUE NOT NULL, userid INT(16) UNIQUE NOT NULL AUTO_INCREMENT) ENGINE=InnoDB"
