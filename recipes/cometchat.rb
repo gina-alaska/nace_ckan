@@ -24,6 +24,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+node.default['cometchat']['on_startup'] = True
+
 apt_update 'system' do
   action :periodic
   frequency 86_400
@@ -129,6 +131,7 @@ end
 execute 'import_users' do
   command 'bash /tmp/import_users.sh'
   action :nothing
+  notifies :delete, ''
 end
 
 #end
