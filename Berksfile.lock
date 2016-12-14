@@ -28,7 +28,7 @@ GRAPH
   mingw (1.2.4)
     compat_resource (>= 0.0.0)
     seven_zip (>= 0.0.0)
-  nace-ckan (1.4.4)
+  nace-ckan (1.4.5)
     database (>= 0.0.0)
     httpd (>= 0.0.0)
     poise-python (>= 0.0.0)

@@ -24,7 +24,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-node.default['cometchat']['on_startup'] = True
+node.default['cometchat']['on_startup'] = true
 
 apt_update 'system' do
   action :periodic
