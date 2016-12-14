@@ -3,7 +3,7 @@
 # Collect all of the users currently in the CKAN database for integration into the CometChat database.
 PGPASSWORD=<%= @pgsql_password %> psql -U <%= @pgsql_user %> -d <%= @pgsql_db_name %> -h <%= @pgsql_db_host %> -c "COPY public.user(name) TO stdout DELIMITER ',' CSV HEADER" > /tmp/cometchat_users.csv
 
-<% if node['cometchat']['on_startup'] == True -%>
+<% if node['cometchat']['on_startup'] == true -%>
 # Add the column cc_id (cometchat_id) to Postgresql database. Only available in initial creation of CometChat server.
 PGPASSWORD=<%= @pgsql_password %> psql -U <%= @pgsql_user %> -d <%= @pgsql_db_name %> -h <%= @pgsql_db_host %> -c "ALTER TABLE public.user ADD COLUMN cc_id text"
 <% end -%>
