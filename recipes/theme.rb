@@ -24,6 +24,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+package 'mysql-client'
+package 'postgresql-client'
+package 'python-dev'
+package 'libmysqlclient-dev'
+
+python_package 'MySQL-python' do
+  python '/usr/lib/ckan/default/bin/python'
+  action :install
+end
+
 git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
   user node['ckan']['system_user']
   group node['ckan']['system_group']
@@ -55,7 +65,7 @@ if node['cometchat']['chat_url'] != 'http://localhost'
 
   template '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/actions.py' do
     source 'actions.py.erb'
-    variable ({
+    variables ({
         'cometchat_db_host' => node['cometchat']['db_host'],
         'cometchat_db_name' => node['cometchat']['db_name'],
         'cometchat_db_username' => node['cometchat']['db_username'],
@@ -68,4 +78,30 @@ end
 bash 'install NASA ACE theme' do
   code '/usr/lib/ckan/default/bin/python setup.py develop'
   cwd '/usr/lib/ckan/default/src/ckanext-nasa_ace'
+end
+
+template '/tmp/import_users.sh' do
+  source 'import_users.erb'
+  variables ({
+      'pgsql_password' => node['ckan']['db_password'],
+      'pgsql_user' => node['ckan']['db_username'],
+      'pgsql_db_name' => node['ckan']['db_name'],
+      'pgsql_db_host' => node['ckan']['db_address'],
+      'mysql_host_name' => node['cometchat']['db_host'],
+      'mysql_user' => node['cometchat']['db_username'],
+      'mysql_password' => node['cometchat']['db_password'],
+      'mysql_db_name' => node['cometchat']['db_name']
+    })
+  action :create
+  notifies :run, 'execute[import_users]', :immediately
+end
+
+execute 'import_users' do
+  command 'bash /tmp/import_users.sh'
+  action :nothing
+  notifies :delete, 'file[/tmp/import_users.sh]', :immediately
+end
+
+file '/tmp/import_users.sh' do
+  action :nothing
 end
