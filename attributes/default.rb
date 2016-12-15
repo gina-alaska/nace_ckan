@@ -41,4 +41,3 @@ default['cometchat']['db_host'] = ''
 default['cometchat']['db_name'] = ''
 default['cometchat']['db_username'] = ''
 default['cometchat']['db_password'] = ''
-default['cometchat']['on_startup'] = false

@@ -52,6 +52,17 @@ if node['cometchat']['chat_url'] != 'http://localhost'
       })
     action :create
   end
+
+  template '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/actions.py' do
+    source 'actions.py.erb'
+    variable ({
+        'cometchat_db_host' => node['cometchat']['db_host'],
+        'cometchat_db_name' => node['cometchat']['db_name'],
+        'cometchat_db_username' => node['cometchat']['db_username'],
+        'cometchat_db_password' => node['cometchat']['db_password']
+      })
+      action :create
+  end
 end
 
 bash 'install NASA ACE theme' do

@@ -1,0 +1,11 @@
+import ckan.plugins.toolkit as toolkit
+import ckan.logic.action as action
+from sqlalchemy import *
+
+def user_show(context, data_dict=None):
+        mysql_engine = create_engine('mysql://<%= @cometchat_db_username %>:<%= @cometchat_db_password %>@<%= @cometchat_db_host %>/<%= @cometchat_db_name %>?use_unicode=0', pool_recycle=3600)
+        mysql_engine.connect()
+        result = mysql_engine.execute("select userid from users where name='" + str(context['user']) + "'")
+        for row in result:
+                toolkit.response.set_cookie('cc_data', str(row['userid']))
+        return action.get.user_show(context, data_dict)

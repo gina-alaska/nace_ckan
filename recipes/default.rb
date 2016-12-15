@@ -147,7 +147,18 @@ template '/tmp/import_users.sh' do
       'mysql_password' => node['cometchat']['db_password'],
       'mysql_db_name' => node['cometchat']['db_name']
     })
-  action :create_if_missing
+  action :create
+  notifies :run, 'execute[import_users]', :immediately
+end
+
+execute 'import_users' do
+  command 'bash /tmp/import_users.sh'
+  action :nothing
+  notifies :delete, 'file[/tmp/import_users.sh]', :immediately
+end
+
+file '/tmp/import_users.sh' do
+  action :nothing
 end
 
 include_recipe "nace-ckan::initdb"
