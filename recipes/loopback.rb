@@ -32,6 +32,13 @@ git '/usr/lib/ckan/default/src/ckanext-loopback' do
   action :sync
 end
 
+cookbook_file '/usr/lib/ckan/default/src/ckanext-loopback/ckanext/loopback/plugin.py' do
+  source 'loopback-plugin.py'
+  owner 'root'
+  group 'root'
+  mode 00644
+end
+
 bash 'install CKAN extension for loopback integration' do
   code '/usr/lib/ckan/default/bin/python setup.py develop'
   cwd '/usr/lib/ckan/default/src/ckanext-loopback'
