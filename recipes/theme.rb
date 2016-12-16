@@ -93,7 +93,7 @@ template '/tmp/import_users.sh' do
       'mysql_db_name' => node['cometchat']['db_name']
     })
   action :create
-  notifies :run, 'execute[import_users]', :immediately
+  notifies :run, 'execute[import_users]', :delayed
 end
 
 execute 'import_users' do
