@@ -9,12 +9,10 @@ def user_show(context, data_dict=None):
   result = mysql_engine.execute("select userid from users where name='" + str(context['user']) + "'")
   for row in result:
     toolkit.response.set_cookie('cc_data', str(row['userid']))
-  #return action.get.user_show(context, data_dict)
-  return toolkit.get_action('user_show')(context, data_dict)
+  return action.get.user_show(context, data_dict)
 
 def user_create(context, data_dict=None):
-  #original_action = loopback.user_create(context,data_dict)
-  original_action = toolkit.get_action('user_create')(context, data_dict)
+  original_action = loopback.user_create(context,data_dict)
   mysql_engine = create_engine('mysql://<%= @cometchat_db_username %>:<%= @cometchat_db_password %>@<%= @cometchat_db_host %>/<%= @cometchat_db_name %>?use_unicode=0', pool_recycle=3600)
   connection = mysql_engine.connect()
   metadata = MetaData()
