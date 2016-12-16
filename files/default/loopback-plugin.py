@@ -238,3 +238,13 @@ def organization_member_delete(context, data_dict=None):
     loopback_user_update(data_dict['user_id'], loopback_user_info)
 
     return _group_or_org_member_delete(context, data_dict)
+
+class LoopbackPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.IActions)
+
+    def get_actions(self):
+        return { 'user_update': user_update,
+                'organization_create': organization_create,
+                'organization_member_create': organization_member_create,
+                'organization_member_delete': organization_member_delete
+        }
