@@ -243,7 +243,7 @@ class LoopbackPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IActions)
 
     def get_actions(self):
-        return { 'user_update': user_update,
+        return { 
                 'organization_create': organization_create,
                 'organization_member_create': organization_member_create,
                 'organization_member_delete': organization_member_delete
