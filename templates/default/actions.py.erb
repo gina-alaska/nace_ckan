@@ -22,3 +22,28 @@ def user_create(context, data_dict=None):
   insert = users.insert().values(name=str(userobj.name))
   result = connection.execute(insert)
   return original_action
+
+def user_update(context, data_dict=None):
+  original_username = context['user']
+  original_action = loopback.user_update(context, data_dict)
+  mysql_engine = create_engine('mysql://<%= @cometchat_db_username %>:<%= @cometchat_db_password %>@<%= @cometchat_db_host %>/<%= @cometchat_db_name %>?use_unicode=0', pool_recycle=3600)
+  connection = mysql_engine.connect()
+  metadata = MetaData()
+  users = Table('users', metadata, Column('userid', Integer), Column('name', String),)
+  metadata.create_all(mysql_engine)
+  update = users.update().where(users.c.name == str(original_username)).values(name=str(context['user_obj'].name))
+  connection.execute(update)
+  return original_action
+
+def user_delete(context, data_dict=None):
+  model = context['model']
+  user_id = toolkit.get_or_bust(data_dict, 'id')
+  delete_user = model.User.get(user_id)
+  mysql_engine = create_engine('mysql://<%= @cometchat_db_username %>:<%= @cometchat_db_password %>@<%= @cometchat_db_host %>/<%= @cometchat_db_name %>?use_unicode=0', pool_recycle=3600)
+  connection = mysql_engine.connect()
+  metadata = MetaData()
+  users = Table('users', metadata, Column('userid', Integer), Column('name', String),)
+  metadata.create_all(mysql_engine)
+  delete = users.delete().where(users.c.name == str(delete_user.name))
+  connection.execute(delete)
+  return action.delete.user_delete(context, data_dict)
