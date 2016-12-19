@@ -362,7 +362,7 @@ foreach ($updated_settings as $key => $value) {
 	}
 
   # Addition by Bob Torgerson as configuration value not being used in installation.
-  $baseurl = "<%= @chat_server_url %>";
+  $baseurl = "<%= @chat_server_url %>/";
 
 	if($baseurl != '/cometchat/'){
     $sql = ("insert into cometchat_settings(`setting_key`,`value`,`key_type`) values('BASE_URL','".$baseurl."','0')");
