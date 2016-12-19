@@ -46,6 +46,17 @@ execute 'unzip_cometchat' do
   command 'unzip /var/www/cometchat.zip'
   cwd '/var/www/'
   action :nothing
+  notifies :create, "template[/var/www/cometchat/install.php]", :immediately
+end
+
+template '/var/www/cometchat/install.php' do
+  source 'install.php.erb'
+  owner node['cometchat']['system_user']
+  group node['cometchat']['system_group']
+  variables ({
+      'chat_server_url' => node['cometchat']['chat_url']
+  })
+  action :nothing
   notifies :create, "template[/var/www/cometchat/config.php]", :immediately
 end
 
