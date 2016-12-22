@@ -244,7 +244,6 @@ class LoopbackPlugin(plugins.SingletonPlugin):
 
     def get_actions(self):
         return { 
-                'organization_create': organization_create,
                 'organization_member_create': organization_member_create,
                 'organization_member_delete': organization_member_delete
         }

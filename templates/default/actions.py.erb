@@ -47,3 +47,19 @@ def user_delete(context, data_dict=None):
   delete = users.delete().where(users.c.name == str(delete_user.name))
   connection.execute(delete)
   return action.delete.user_delete(context, data_dict)
+
+def organization_create(context, data_dict=None):
+  original_action = loopback.organization_create(context, data_dict)
+  mysql_engine = create_engine('mysql://<%= @cometchat_db_username %>:<%= @cometchat_db_password %>@<%= @cometchat_db_host %>/<%= @cometchat_db_name %>?use_unicode=0', pool_recycle=3600)
+  connection = mysql_engine.connect()
+  metadata = MetaData()
+  chatrooms = Table('cometchat_chatrooms', metadata, Column('id', Integer), Column('name', String), Column('lastactivity', Integer), Column('createdby', Integer), Column('password', String), Column('type', Integer), Column('vidsession', String), Column('invitedusers', String),)
+  chatroom_users = Table('cometchat_chatrooms_users', metadata, Column('userid', Integer), Column('chatroomid', Integer), Column('isbanned', Integer),)
+  metadata.create_all(mysql_engine)
+  result = mysql_engine.execute("select userid from users where name='" + str(context['auth_user_obj'].name) + "'")
+  for userid in result:
+    insert_chatroom = chatrooms.insert().values(name=str(context['group'].display_name),lastactivity=int(time.time()),createdby=int(userid['userid']),type=2)
+    insert_result = connection.execute(insert_chatroom)
+    insert_user = chatroom_users.insert().values(userid=int(userid['userid']), chatroomid=int(insert_result.lastrowid))
+    connection.execute(insert_user)
+  return original_action
