@@ -63,8 +63,8 @@ if node['cometchat']['chat_url'] != 'http://localhost'
     action :create
   end
 
-  template '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/actions.py' do
-    source 'actions.py.erb'
+  template '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/config.py' do
+    source 'config.py.erb'
     variables ({
         'cometchat_db_host' => node['cometchat']['db_host'],
         'cometchat_db_name' => node['cometchat']['db_name'],
