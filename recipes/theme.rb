@@ -79,29 +79,3 @@ bash 'install NASA ACE theme' do
   code '/usr/lib/ckan/default/bin/python setup.py develop'
   cwd '/usr/lib/ckan/default/src/ckanext-nasa_ace'
 end
-
-template '/tmp/import_users.sh' do
-  source 'import_users.erb'
-  variables ({
-      'pgsql_password' => node['ckan']['db_password'],
-      'pgsql_user' => node['ckan']['db_username'],
-      'pgsql_db_name' => node['ckan']['db_name'],
-      'pgsql_db_host' => node['ckan']['db_address'],
-      'mysql_host_name' => node['cometchat']['db_host'],
-      'mysql_user' => node['cometchat']['db_username'],
-      'mysql_password' => node['cometchat']['db_password'],
-      'mysql_db_name' => node['cometchat']['db_name']
-    })
-  action :create
-  notifies :run, 'execute[import_users]', :delayed
-end
-
-execute 'import_users' do
-  command 'bash /tmp/import_users.sh'
-  action :nothing
-  notifies :delete, 'file[/tmp/import_users.sh]', :immediately
-end
-
-file '/tmp/import_users.sh' do
-  action :nothing
-end
