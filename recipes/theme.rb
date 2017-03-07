@@ -24,15 +24,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-package 'mysql-client'
 package 'postgresql-client'
 package 'python-dev'
-package 'libmysqlclient-dev'
-
-python_package 'MySQL-python' do
-  python '/usr/lib/ckan/default/bin/python'
-  action :install
-end
 
 git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
   user node['ckan']['system_user']
@@ -43,6 +36,14 @@ git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
 end
 
 if node['cometchat']['chat_url'] != 'http://localhost'
+  package 'mysql-client'
+  package 'libmysqlclient-dev'
+
+  python_package 'MySQL-python' do
+    python '/usr/lib/ckan/default/bin/python'
+    action :install
+  end
+
   directory '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/templates/snippets/' do
     action :create
   end
@@ -73,35 +74,17 @@ if node['cometchat']['chat_url'] != 'http://localhost'
       })
       action :create
   end
+else
+  cookbook_file '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/plugin.py' do
+    source 'plugin.py'
+    owner 'root'
+    group 'root'
+    mode 00755
+    action :create
+  end
 end
 
 bash 'install NASA ACE theme' do
   code '/usr/lib/ckan/default/bin/python setup.py develop'
   cwd '/usr/lib/ckan/default/src/ckanext-nasa_ace'
-end
-
-template '/tmp/import_users.sh' do
-  source 'import_users.erb'
-  variables ({
-      'pgsql_password' => node['ckan']['db_password'],
-      'pgsql_user' => node['ckan']['db_username'],
-      'pgsql_db_name' => node['ckan']['db_name'],
-      'pgsql_db_host' => node['ckan']['db_address'],
-      'mysql_host_name' => node['cometchat']['db_host'],
-      'mysql_user' => node['cometchat']['db_username'],
-      'mysql_password' => node['cometchat']['db_password'],
-      'mysql_db_name' => node['cometchat']['db_name']
-    })
-  action :create
-  notifies :run, 'execute[import_users]', :delayed
-end
-
-execute 'import_users' do
-  command 'bash /tmp/import_users.sh'
-  action :nothing
-  notifies :delete, 'file[/tmp/import_users.sh]', :immediately
-end
-
-file '/tmp/import_users.sh' do
-  action :nothing
 end
