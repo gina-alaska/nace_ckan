@@ -31,7 +31,7 @@ git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
   user node['ckan']['system_user']
   group node['ckan']['system_group']
   repository 'https://github.com/gina-alaska/ckanext-nasa_ace.git'
-  revision 'nasa-ace-theme'
+  revision 'merge_master'
   action :sync
 end
 
