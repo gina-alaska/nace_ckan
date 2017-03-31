@@ -17,6 +17,7 @@ default['ckan']['install_path'] = '/usr/lib/ckan/default/src/'
 
 # NASA ACE Workspace attributes
 default['ckan']['workspace_url'] = 'http://workspace.ace.uaf.edu/workspaces'
+default['ckan']['workspace_email'] = 'root@localhost'
 default['ckan']['mailserver'] = 'localhost'
 
 # Solr default attributes

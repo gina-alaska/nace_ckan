@@ -30,6 +30,7 @@ apt_update 'system' do
 end
 
 package 'git'
+package 'postfix'
 
 package 'libpq5' do
   action :install
