@@ -74,6 +74,22 @@ if node['cometchat']['chat_url'] != 'http://localhost'
       })
       action :create
   end
+  template '/tmp/create_users.sh' do
+    source 'create_users.erb'
+    variables ({
+      'mysql_host_name' => node['cometchat']['db_host'],
+      'mysql_user' => node['cometchat']['db_username'],
+      'mysql_password' => node['cometchat']['db_password'],
+      'mysql_db_name' => node['cometchat']['db_name']
+    })
+    action :create
+    notifies :run, 'execute[create_users]', :delayed
+  end
+
+  execute 'create_users' do
+    command 'bash /tmp/create_users.sh'
+    action :nothing
+  end
 else
   cookbook_file '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/plugin.py' do
     source 'plugin.py'

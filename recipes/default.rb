@@ -105,11 +105,6 @@ if (node['ckan']['aws_access_key_id'] != '' && node['ckan']['aws_secret_access_k
   ckan_plugins_list = ckan_plugins_list + ' s3filestore'
 end
 
-if (node['loopback']['username'] != '' && node['loopback']['password'] != '' && node['loopback']['email'] != '' && node['loopback']['login_url'] != '' && node['loopback']['user_url'] != '' && node['loopback']['group_url'] != '')
-  include_recipe "nace-ckan::loopback"
-  ckan_plugins_list = ckan_plugins_list + ' loopback'
-end
-
 template '/etc/ckan/default/production.ini' do
   source 'production.ini.erb'
   variables ({

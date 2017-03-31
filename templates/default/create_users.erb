@@ -1,0 +1,4 @@
+#! /bin/bash
+
+# Create a table for the users of CometChat if one doesn't already exist.
+mysql -u <%= @mysql_user %> -p<%= @mysql_password %> -h <%= @mysql_host_name %> -D <%= @mysql_db_name %> -e "CREATE TABLE IF NOT EXISTS users(name VARCHAR(100) UNIQUE NOT NULL, userid INT(16) UNIQUE NOT NULL AUTO_INCREMENT) ENGINE=InnoDB"
