@@ -74,9 +74,16 @@ ckan.auth.roles_that_cascade_to_sub_groups = admin
 
 ## CKAN NASA ACE
 
-ckan.nasa_ace.workspace_url = <%= node['ckan']['workspace_url'] %>
-ckan.nasa_ace.email = <%= node['ckan']['workspace_email'] %>
-ckan.nasa_ace.mailserver = <%= node['ckan']['mailserver'] %>
+nasa_ace_actions.workspace_url = <%= node['ckan']['workspace_url'] %>
+nasa_ace_actions.email = <%= node['ckan']['workspace_email'] %>
+nasa_ace_actions.mailserver = <%= node['ckan']['mailserver'] %>
+nasa_ace_actions.actions_dev = <%= node['ckan']['actions_dev'] %>
+
+<% if node['googleanalytics']['id'] != '' -%>
+## Google Analytics Configuration
+
+googleanalytics.id = <%= node['googleanalytics']['id'] %>
+<% end -%>
 
 <% if node['ckan']['aws_access_key_id'] != '' && node['ckan']['aws_secret_access_key'] != '' && node['ckan']['aws_bucket_name'] != '' && node['ckan']['aws_storage_path'] != '' -%>
 ## S3FileStore Configuration

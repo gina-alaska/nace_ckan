@@ -14,6 +14,7 @@ default['ckan']['system_group'] = 'www-data'
 default['ckan']['spatial_mapbox_id'] = 'gina-alaska.heb1gpfg'
 default['ckan']['spatial_mapbox_token'] = ''
 default['ckan']['install_path'] = '/usr/lib/ckan/default/src/'
+default['ckan']['actions_dev'] = 'True'
 
 # NASA ACE Workspace attributes
 default['ckan']['workspace_url'] = 'http://workspace.ace.uaf.edu/workspaces'
@@ -46,3 +47,6 @@ default['cometchat']['db_host'] = ''
 default['cometchat']['db_name'] = ''
 default['cometchat']['db_username'] = ''
 default['cometchat']['db_password'] = ''
+
+# Attributes for Google Analytics
+default['googleanalytics']['id'] = ''

@@ -31,7 +31,7 @@ git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
   user node['ckan']['system_user']
   group node['ckan']['system_group']
   repository 'https://github.com/gina-alaska/ckanext-nasa_ace.git'
-  revision 'merge_master'
+  revision 'testing_new_ui_intergrated'
   action :sync
 end
 
@@ -64,7 +64,7 @@ if node['cometchat']['chat_url'] != 'http://localhost'
     action :create
   end
 
-  template '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/config.py' do
+  template '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace_actions/config.py' do
     source 'config.py.erb'
     variables ({
         'cometchat_db_host' => node['cometchat']['db_host'],

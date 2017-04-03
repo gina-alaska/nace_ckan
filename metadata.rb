@@ -4,7 +4,7 @@ maintainer_email 'support+chef@gina.alaska.edu'
 license 'mit'
 description 'Installs/Configures nace-ckan'
 long_description 'Installs/Configures nace-ckan'
-version '1.6.6'
+version '1.6.7'
 
 depends 'httpd'
 depends 'solr'
