@@ -99,7 +99,7 @@ include_recipe "nace-ckan::theme"
 include_recipe "nace-ckan::plugins"
 include_recipe "nace-ckan::private-datasets"
 
-ckan_plugins_list = 'stats text_view image_view recline_view nasa_ace nasa_ace_actions nasa_ace_dataform resource_proxy geo_view geojson_view wmts_view group_private_datasets'
+ckan_plugins_list = 'stats text_view image_view recline_view nasa_ace nasa_ace_actions nasa_ace_datasetform resource_proxy geo_view geojson_view wmts_view group_private_datasets'
 
 if (node['ckan']['aws_access_key_id'] != '' && node['ckan']['aws_secret_access_key'] != '' && node['ckan']['aws_bucket_name'] != '' && node['ckan']['aws_storage_path'] != '')
   include_recipe "nace-ckan::s3filestore"
