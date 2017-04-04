@@ -13,8 +13,8 @@ default['ckan']['config'] = {
   'ckan_site_title' => 'NASA Arctic Collaborative Environment',
   'ckan_site_logo_path' => '/base/images/ace_title.png',
   'ckan_site_favicon' => '/base/images/ace_logo.png',
-  'ckanext_spatial_mapbox_id' => 'gina-alaska.heb1gpfg',
-  'ckanext_spatial_mapbox_token' => '',
+  'mapbox_id' => 'gina-alaska.heb1gpfg',
+  'mapbox_token' => '',
   'googleanalytics' => false
 }
 
