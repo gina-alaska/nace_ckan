@@ -14,13 +14,14 @@ default['ckan']['config'] = {
   'ckan_site_logo_path' => '/base/images/ace_title.png',
   'ckan_site_favicon' => '/base/images/ace_logo.png',
   'ckanext_spatial_mapbox_id' => 'gina-alaska.heb1gpfg',
-  'ckanext_spatial_mapbox_token' => ''
+  'ckanext_spatial_mapbox_token' => '',
+  'googleanalytics' => false
 }
 
 # NASA ACE Workspace attributes
 default['ckan']['workspace_url'] = 'http://workspace.ace.uaf.edu/workspaces'
-default['ckan']['workspace_email'] = 'root@localhost'
-default['ckan']['mailserver'] = 'localhost'
+default['ckan']['workspace_email'] = 'support+ckan@gina.alaska.edu'
+default['ckan']['mailserver'] = 'localhosts'
 
 # Solr default attributes
 override['solr']['checksum'] = 'ac3543880f1b591bcaa962d7508b528d7b42e2b5548386197940b704629ae851'
@@ -49,6 +50,3 @@ default['cometchat']['db_host'] = ''
 default['cometchat']['db_name'] = ''
 default['cometchat']['db_username'] = ''
 default['cometchat']['db_password'] = ''
-
-# Attributes for Google Analytics
-default['googleanalytics']['id'] = ''

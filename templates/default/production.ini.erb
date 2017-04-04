@@ -79,10 +79,9 @@ nasa_ace_actions.email = <%= node['ckan']['workspace_email'] %>
 nasa_ace_actions.mailserver = <%= node['ckan']['mailserver'] %>
 nasa_ace_actions.actions_dev = <%= node['ckan']['actions_dev'] %>
 
-<% if node['googleanalytics']['id'] != '' -%>
+<% if @googleanalytics -%>
 ## Google Analytics Configuration
-
-googleanalytics.id = <%= node['googleanalytics']['id'] %>
+googleanalytics.id = <%= @googleanalytics %>
 <% end -%>
 
 <% if node['ckan']['enable_s3filestore'] -%>

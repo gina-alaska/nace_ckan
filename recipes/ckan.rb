@@ -45,25 +45,6 @@ directory node['ckan']['storage_location'] do
   recursive true
 end
 
-node.default['ckan']['plugins'] = {
-  stats: true,
-  text_view: true,
-  image_view: true,
-  recline_view: true,
-  nasa_ace: true,
-  nasa_ace_actions: true,
-  nasa_ace_datasetform: true,
-  resource_proxy: true,
-  geojson_view: true,
-  wmts_view: true,
-  group_private_datasets: true
-}
-
-%w{ stats text_view image_view recline_view resource_proxy geojson_view wmts_view nasa_ace nasa_ace_actions nasa_ace_datasetform group_private_datasets }
-ckan_plugin 'stats' do
-  action :activate
-end
-
 include_recipe "nace-ckan::theme"
 include_recipe "nace-ckan::plugins"
 include_recipe "nace-ckan::private-datasets"

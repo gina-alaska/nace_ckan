@@ -23,6 +23,11 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+%w(stats text_view image_view recline_view resource_proxy geojson_view wmts_view nasa_ace nasa_ace_actions nasa_ace_datasetform group_private_datasets).each do |plugin|
+  ckan_plugin plugin do
+    action :activate
+  end
+end
 
 ckan_plugin 'geo_view' do
   repository 'https://github.com/pduchesne/ckanext-geoview.git'
@@ -37,6 +42,7 @@ ckan_plugin 'googleanalytics' do
   owner node['ckan']['system_user']
   group node['ckan']['system_group']
 
+  only_if { node['ckan']['googleanalytics'] }
   action [:install, :activate]
 end
 

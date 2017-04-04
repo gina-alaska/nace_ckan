@@ -25,7 +25,7 @@ action :install do
       target_dir plugin_path
       tar_flags [ '--strip-components 1' ]
       creates ::File.join(plugin_path, 'setup.py')
-      notifies :execute, "bash[install_#{new_resource.plugin_name}_ckan_extension]"
+      notifies :run, "bash[install_#{new_resource.plugin_name}_ckan_extension]"
     end
   elsif new_resource.repository
     git plugin_path do
