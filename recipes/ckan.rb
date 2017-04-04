@@ -45,22 +45,46 @@ directory node['ckan']['storage_location'] do
   recursive true
 end
 
-node.default['ckan']['plugins'] = %w(stats text_view image_view recline_view nasa_ace nasa_ace_actions nasa_ace_datasetform resource_proxy geo_view geojson_view wmts_view group_private_datasets)
+node.default['ckan']['plugins'] = {
+  stats: true,
+  text_view: true,
+  image_view: true,
+  recline_view: true,
+  nasa_ace: true,
+  # nasa_ace_actions: true,
+  nasa_ace_datasetform: true,
+  resource_proxy: true,
+  geo_view: true,
+  geojson_view: true,
+  wmts_view: true,
+  group_private_datasets: true
+}
 
-if node['ckan']['enable_s3filestore']
-  include_recipe "nace-ckan::s3filestore"
-  node.default['ckan']['plugins'] << 's3filestore'
+ckan_plugin 'ckanext-s3filestore' do
+  plugin_name 's3filestore'
+  source 'https://github.com/okfn/ckanext-s3filestore/archive/v0.0.5.tar.gz'
+  owner node['ckan']['system_user']
+  group node['ckan']['system_group']
+
+  only_if { node['ckan']['enable_s3filestore'] }
+  action [:install, :active]
 end
 
 if (node['googleanalytics']['id'] != '')
   include_recipe "nace-ckan::googleanalytics"
-  node.default['ckan']['plugins'] << 'googleanalytics'
+  node.default['ckan']['plugins']['googleanalytics'] = true
 end
 
 include_recipe "nace-ckan::theme"
 include_recipe "nace-ckan::plugins"
 include_recipe "nace-ckan::private-datasets"
 
-include_recipe 'nace-ckan::config'
+ckan_config '/etc/ckan/default/production.ini' do
+  storage_location node['ckan']['storage_location']
+  session_secret '/LQ1h6/Sl0EFEF1maYhFs0Sxo' # TODO: changeme!
+  instance_uuid '200e5ca3-cffd-47aa-a93e-4c40bb81ce2c' #TODO: changeme!
+  variables node['ckan']['config']
+  notifies :reload, 'httpd_service[ckan]'
+end
 
 include_recipe 'nace-ckan::initdb'
