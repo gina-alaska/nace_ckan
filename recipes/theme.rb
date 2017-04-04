@@ -31,7 +31,7 @@ git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
   user node['ckan']['system_user']
   group node['ckan']['system_group']
   repository 'https://github.com/gina-alaska/ckanext-nasa_ace.git'
-  revision 'testing_new_ui_intergrated'
+  revision '1.0'
   action :sync
 end
 

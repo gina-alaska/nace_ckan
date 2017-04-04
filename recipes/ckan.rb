@@ -51,28 +51,17 @@ node.default['ckan']['plugins'] = {
   image_view: true,
   recline_view: true,
   nasa_ace: true,
-  # nasa_ace_actions: true,
+  nasa_ace_actions: true,
   nasa_ace_datasetform: true,
   resource_proxy: true,
-  geo_view: true,
   geojson_view: true,
   wmts_view: true,
   group_private_datasets: true
 }
 
-ckan_plugin 'ckanext-s3filestore' do
-  plugin_name 's3filestore'
-  source 'https://github.com/okfn/ckanext-s3filestore/archive/v0.0.5.tar.gz'
-  owner node['ckan']['system_user']
-  group node['ckan']['system_group']
-
-  only_if { node['ckan']['enable_s3filestore'] }
-  action [:install, :active]
-end
-
-if (node['googleanalytics']['id'] != '')
-  include_recipe "nace-ckan::googleanalytics"
-  node.default['ckan']['plugins']['googleanalytics'] = true
+%w{ stats text_view image_view recline_view resource_proxy geojson_view wmts_view nasa_ace nasa_ace_actions nasa_ace_datasetform group_private_datasets }
+ckan_plugin 'stats' do
+  action :activate
 end
 
 include_recipe "nace-ckan::theme"

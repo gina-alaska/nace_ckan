@@ -24,18 +24,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-geoview_path = ::File.join(node['ckan']['install_path'], 'ckanext-geoview')
-git geoview_path do
+ckan_plugin 'geo_view' do
   repository 'https://github.com/pduchesne/ckanext-geoview.git'
-  user node['ckan']['system_user']
+  owner node['ckan']['system_user']
   group node['ckan']['system_group']
-  notifies :run, 'execute[install_geoview_plugin]', :immediately
+
+  action [:install, :activate]
 end
 
-execute 'install_geoview_plugin' do
-  cwd geoview_path
-  command <<-EOH
-    /usr/lib/ckan/default/bin/python setup.py develop
-  EOH
-  action :nothing
+ckan_plugin 'googleanalytics' do
+  package 'https://github.com/ckan/ckanext-googleanalytics/archive/v2.0.2.tar.gz'
+  owner node['ckan']['system_user']
+  group node['ckan']['system_group']
+
+  action [:install, :activate]
+end
+
+ckan_plugin 's3filestore' do
+  package 'https://github.com/okfn/ckanext-s3filestore/archive/v0.0.5.tar.gz'
+  owner node['ckan']['system_user']
+  group node['ckan']['system_group']
+
+  only_if { node['ckan']['enable_s3filestore'] }
+  action [:install, :activate]
 end
