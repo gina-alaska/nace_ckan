@@ -31,7 +31,7 @@ git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
   user node['ckan']['system_user']
   group node['ckan']['system_group']
   repository 'https://github.com/gina-alaska/ckanext-nasa_ace.git'
-  revision 'testing_new_ui_intergrated'
+  revision '1.0'
   action :sync
 end
 
@@ -89,14 +89,6 @@ if node['cometchat']['chat_url'] != 'http://localhost'
   execute 'create_users' do
     command 'bash /tmp/create_users.sh'
     action :nothing
-  end
-else
-  cookbook_file '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/plugin.py' do
-    source 'plugin.py'
-    owner 'root'
-    group 'root'
-    mode 00755
-    action :create
   end
 end
 
