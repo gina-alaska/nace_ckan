@@ -1,20 +1,20 @@
-default['ckan']['db_name'] = "ckan_default"
-default['ckan']['db_datastore_name'] = "datastore_default"
-default['ckan']['db_username'] = "ckan_default"
-default['ckan']['db_password'] = "pass"
-default['ckan']['db_address'] = "localhost"
-default['ckan']['site_url'] = "http://localhost"
-default['ckan']['solr_url'] = "127.0.0.1"
 default['ckan']['storage_location'] = '/opt/ckan/data'
-default['ckan']['site_logo_path'] = '/base/images/ace_title.png'
-default['ckan']['site_favicon'] = '/base/images/ace_logo.png'
-default['ckan']['site_title'] = 'NASA Arctic Collaborative Environment'
-default['ckan']['system_user'] = ''
+default['ckan']['system_user'] = 'www-data'
 default['ckan']['system_group'] = 'www-data'
-default['ckan']['spatial_mapbox_id'] = 'gina-alaska.heb1gpfg'
-default['ckan']['spatial_mapbox_token'] = ''
 default['ckan']['install_path'] = '/usr/lib/ckan/default/src/'
 default['ckan']['actions_dev'] = 'True'
+
+default['ckan']['config'] = {
+  'port' => '5000',
+  'site_url' => 'http://localhost',
+  'solr_url' => 'http://localhost:8983/solr',
+  'ckan_default_views' => 'image_view text_view recline_view nasa_ace geo_view geojson_view wmts_view',
+  'ckan_site_title' => 'NASA Arctic Collaborative Environment',
+  'ckan_site_logo_path' => '/base/images/ace_title.png',
+  'ckan_site_favicon' => '/base/images/ace_logo.png',
+  'ckanext_spatial_mapbox_id' => 'gina-alaska.heb1gpfg',
+  'ckanext_spatial_mapbox_token' => ''
+}
 
 # NASA ACE Workspace attributes
 default['ckan']['workspace_url'] = 'http://workspace.ace.uaf.edu/workspaces'
@@ -25,6 +25,7 @@ default['ckan']['mailserver'] = 'localhost'
 override['solr']['checksum'] = 'ac3543880f1b591bcaa962d7508b528d7b42e2b5548386197940b704629ae851'
 
 # Attributes for using AWS S3 Bucket for shared storage
+default['ckan']['enable_s3filestore'] = false
 default['ckan']['aws_access_key_id'] = ''
 default['ckan']['aws_secret_access_key'] = ''
 default['ckan']['aws_bucket_name'] = ''

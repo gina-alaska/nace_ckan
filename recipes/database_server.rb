@@ -36,8 +36,8 @@ postgresql_database_user node['ckan']['db_username'] do
   action :create
 end
 
-postgresql_database 'ckan_default' do
+postgresql_database node['ckan']['db_name'] do
   connection pg_connection_info
   encoding 'UTF8'
-  owner 'ckan_default'
+  owner node['ckan']['db_username']
 end
