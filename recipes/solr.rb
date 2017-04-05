@@ -25,6 +25,7 @@
 # THE SOFTWARE.
 
 include_recipe 'solr::default'
+tag('solr')
 
 cookbook_file '/opt/solr-4.10.4/example/solr/collection1/conf/schema.xml' do
   source 'solr_schema.xml'

@@ -26,4 +26,10 @@ suites:
         password:
           postgres: testing
       ckan:
+        config:
+          postgresql_url: postgresql://ckan_default:changeme@localhost/ckan
         system_user: vagrant
+        db_username: ckan_default
+        db_password: changeme
+        db_name: ckan
+        db_address: localhost
