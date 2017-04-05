@@ -90,14 +90,6 @@ if node['cometchat']['chat_url'] != 'http://localhost'
     command 'bash /tmp/create_users.sh'
     action :nothing
   end
-else
-  cookbook_file '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/plugin.py' do
-    source 'plugin.py'
-    owner 'root'
-    group 'root'
-    mode 00755
-    action :create
-  end
 end
 
 bash 'install NASA ACE theme' do
