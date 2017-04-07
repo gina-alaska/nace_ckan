@@ -10,6 +10,7 @@ property :dbconfig, Hash, default: {}
 action :install do
   package %w(php5 php5-mysql php5-curl unzip)
 
+  # TODO: convert this to download from S3 instead of having it live in the cookbook
   cookbook_file '/var/www/cometchat.zip' do
     source 'cometchat.zip'
     cookbook 'nace-ckan'
@@ -48,7 +49,7 @@ action :install do
     variables (new_resource.dbconfig)
     notifies :reload, 'httpd_service[cometchat]', :delayed
   end
-  
+
   template '/var/www/cometchat/install.php' do
     source 'install.php.erb'
     cookbook 'nace-ckan'
