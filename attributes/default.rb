@@ -21,7 +21,7 @@ default['ckan']['config'] = {
 # NASA ACE Workspace attributes
 default['ckan']['workspace_url'] = 'http://workspace.ace.uaf.edu/workspaces'
 default['ckan']['workspace_email'] = 'support+ckan@gina.alaska.edu'
-default['ckan']['mailserver'] = 'localhosts'
+default['ckan']['mailserver'] = 'localhost'
 
 # Solr default attributes
 override['solr']['checksum'] = 'ac3543880f1b591bcaa962d7508b528d7b42e2b5548386197940b704629ae851'
