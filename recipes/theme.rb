@@ -34,6 +34,8 @@ git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
   action :sync
 end
 
+# TODO: This needs to be cleaned up, I don't like having to pull in the recipe
+# like this for the way the theme plugin gets installed.
 include_recipe 'nace_cometchat::ckan_plugin'
 
 bash 'install NASA ACE theme' do
