@@ -3,10 +3,11 @@ default['ckan']['system_user'] = 'www-data'
 default['ckan']['system_group'] = 'www-data'
 default['ckan']['install_path'] = '/usr/lib/ckan/default/src/'
 default['ckan']['actions_dev'] = 'True'
+default['ckan']['theme_version'] = '1.1'
+default['ckan']['site_url'] = 'http://localhost'
 
 default['ckan']['config'] = {
   'port' => '5000',
-  'site_url' => 'http://localhost',
   'solr_url' => 'http://localhost:8983/solr',
   'ckan_datapusher_url' => 'http://localhost:8800/',
   'ckan_default_views' => 'image_view text_view recline_view nasa_ace geo_view geojson_view wmts_view',

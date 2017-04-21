@@ -14,11 +14,17 @@ action :install do
   dpkg_package 'python-ckan_2.5-trusty_amd64.deb' do
     source "#{Chef::Config[:file_cache_path]}/python-ckan_#{new_resource.version}.deb"
     action :install
+    notifies :run, 'execute[fix_ckan_owners]', :immediately
     notifies :run, 'execute[fix_ckan_permissions]', :immediately
   end
 
-  execute 'fix_ckan_permissions' do
+  execute 'fix_ckan_owners' do
     command "chown -R #{new_resource.owner}:#{new_resource.group} /usr/lib/ckan"
+    action :nothing
+  end
+  
+  execute 'fix_ckan_permissions' do
+    command "chmod -R g+w /usr/lib/ckan"
     action :nothing
   end
 end

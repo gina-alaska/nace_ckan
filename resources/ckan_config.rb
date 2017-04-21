@@ -1,5 +1,6 @@
 resource_name :ckan_config
 
+property :site_url, String, required: true
 property :variables, Hash, required: true
 property :s3filestore, Hash, default: {}
 property :database, Hash, default: {}
@@ -16,6 +17,7 @@ action :create do
   config_vars.merge!(new_resource.s3filestore)
   config_vars.merge!(new_resource.database)
   config_vars.merge!({
+    site_url: new_resource.site_url,
     ckan_plugins: active_plugins.join(' '),
     storage_location: new_resource.storage_location,
     session_secret: new_resource.session_secret,

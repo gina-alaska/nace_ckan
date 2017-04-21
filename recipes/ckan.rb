@@ -52,6 +52,7 @@ include_recipe "nace-ckan::plugins"
 include_recipe "nace-ckan::private-datasets"
 
 ckan_config '/etc/ckan/default/production.ini' do
+  site_url node['ckan']['site_url']
   storage_location node['ckan']['storage_location']
   session_secret '/LQ1h6/Sl0EFEF1maYhFs0Sxo' # TODO: changeme!
   instance_uuid '200e5ca3-cffd-47aa-a93e-4c40bb81ce2c' #TODO: changeme!
