@@ -1,3 +1,5 @@
+tag('ckan')
+
 package %w(postfix libpq5 nginx)
 
 service 'nginx' do
