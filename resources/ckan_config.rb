@@ -11,7 +11,9 @@ property :instance_uuid, String, required: true
 action :create do
   active_plugins = node['ckan']['plugins'].to_hash.select { |k,v| v }.keys
 
-  config_vars = new_resource.variables.to_hash.merge(new_resource.s3filestore)
+  # convert to hash so we can update config variables
+  config_vars = new_resource.variables.to_hash
+  config_vars.merge!(new_resource.s3filestore)
   config_vars.merge!(new_resource.database)
   config_vars.merge!({
     ckan_plugins: active_plugins.join(' '),
