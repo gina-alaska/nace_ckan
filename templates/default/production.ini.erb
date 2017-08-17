@@ -79,20 +79,19 @@ nasa_ace_actions.email = <%= node['ckan']['workspace_email'] %>
 nasa_ace_actions.mailserver = <%= node['ckan']['mailserver'] %>
 nasa_ace_actions.actions_dev = <%= node['ckan']['actions_dev'] %>
 
-<% if node['googleanalytics']['id'] != '' -%>
+<% if @googleanalytics -%>
 ## Google Analytics Configuration
-
-googleanalytics.id = <%= node['googleanalytics']['id'] %>
+googleanalytics.id = <%= @googleanalytics %>
 <% end -%>
 
-<% if node['ckan']['aws_access_key_id'] != '' && node['ckan']['aws_secret_access_key'] != '' && node['ckan']['aws_bucket_name'] != '' && node['ckan']['aws_storage_path'] != '' -%>
+<% if node['ckan']['enable_s3filestore'] -%>
 ## S3FileStore Configuration
 
 ckanext.s3filestore.check_access_on_startup = true
-ckanext.s3filestore.aws_access_key_id = <%= node['ckan']['aws_access_key_id'] %>
-ckanext.s3filestore.aws_secret_access_key = <%= node['ckan']['aws_secret_access_key'] %>
-ckanext.s3filestore.aws_bucket_name = <%= node['ckan']['aws_bucket_name'] %>
-ckanext.s3filestore.aws_storage_path = <%= node['ckan']['aws_storage_path'] %>
+ckanext.s3filestore.aws_access_key_id = <%= @aws_access_key_id %>
+ckanext.s3filestore.aws_secret_access_key = <%= @aws_secret_access_key %>
+ckanext.s3filestore.aws_bucket_name = <%= @aws_bucket_name %>
+ckanext.s3filestore.aws_storage_path = <%= @aws_storage_path %>
 ckanext.s3filestore.filesystem_download_fallback = False
 <% end -%>
 
@@ -143,8 +142,8 @@ ckan.plugins = <%= @ckan_plugins %>
 ckan.views.default_views = <%= @ckan_default_views %>
 
 ckanext.spatial.common_map.type = mapbox
-ckanext.spatial.common_map.mapbox.map_id = <%= @ckanext_spatial_mapbox_id %>
-ckanext.spatial.common_map.mapbox.access_token = <%= @ckanext_spatial_mapbox_token %>
+ckanext.spatial.common_map.mapbox.map_id = <%= @mapbox_id %>
+ckanext.spatial.common_map.mapbox.access_token = <%= @mapbox_token %>
 
 ## Front-End Settings
 ckan.site_title = <%= @ckan_site_title %>
@@ -181,7 +180,7 @@ ckan.feeds.author_link =
 
 ## Storage Settings
 
-ckan.storage_path = <%= @ckan_storage_location %>
+ckan.storage_path = <%= @storage_location %>
 #ckan.max_resource_size = 10
 #ckan.max_image_size = 2
 
@@ -210,12 +209,12 @@ ckan.hide_activity_from_users = %(ckan.site_id)s
 ## Email settings
 
 #email_to = you@yourdomain.com
-#error_email_from = paste@localhost
-#smtp.server = localhost
+error_email_from = support@gina.alaska.edu
+smtp.server = localhost
 #smtp.starttls = False
 #smtp.user = your_username@gmail.com
 #smtp.password = your_password
-#smtp.mail_from =
+smtp.mail_from = support@gina.alaska.edu
 
 
 ## Logging configuration

@@ -24,73 +24,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-package 'postgresql-client'
-package 'python-dev'
+package %w(postgresql-client python-dev)
 
 git '/usr/lib/ckan/default/src/ckanext-nasa_ace' do
   user node['ckan']['system_user']
   group node['ckan']['system_group']
   repository 'https://github.com/gina-alaska/ckanext-nasa_ace.git'
-  revision '1.0'
+  revision '1.1'
   action :sync
 end
 
-if node['cometchat']['chat_url'] != 'http://localhost'
-  package 'mysql-client'
-  package 'libmysqlclient-dev'
-
-  python_package 'MySQL-python' do
-    python '/usr/lib/ckan/default/bin/python'
-    action :install
-  end
-
-  directory '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/templates/snippets/' do
-    action :create
-  end
-
-  template '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/templates/snippets/cometchat-css.html' do
-    source 'cometchat-css.html.erb'
-    variables ({
-        'cometchat_url' => node['cometchat']['chat_url']
-    })
-    action :create
-  end
-
-  template '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace/templates/snippets/cometchat-js.html' do
-    source 'cometchat-js.html.erb'
-    variables ({
-        'cometchat_url' => node['cometchat']['chat_url']
-      })
-    action :create
-  end
-
-  template '/usr/lib/ckan/default/src/ckanext-nasa_ace/ckanext/nasa_ace_actions/config.py' do
-    source 'config.py.erb'
-    variables ({
-        'cometchat_db_host' => node['cometchat']['db_host'],
-        'cometchat_db_name' => node['cometchat']['db_name'],
-        'cometchat_db_username' => node['cometchat']['db_username'],
-        'cometchat_db_password' => node['cometchat']['db_password']
-      })
-      action :create
-  end
-  template '/tmp/create_users.sh' do
-    source 'create_users.erb'
-    variables ({
-      'mysql_host_name' => node['cometchat']['db_host'],
-      'mysql_user' => node['cometchat']['db_username'],
-      'mysql_password' => node['cometchat']['db_password'],
-      'mysql_db_name' => node['cometchat']['db_name']
-    })
-    action :create
-    notifies :run, 'execute[create_users]', :delayed
-  end
-
-  execute 'create_users' do
-    command 'bash /tmp/create_users.sh'
-    action :nothing
-  end
-end
+# TODO: This needs to be cleaned up, I don't like having to pull in the recipe
+# like this for the way the theme plugin gets installed.
+include_recipe 'nace_cometchat::ckan_plugin'
 
 bash 'install NASA ACE theme' do
   code '/usr/lib/ckan/default/bin/python setup.py develop'

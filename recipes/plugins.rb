@@ -23,19 +23,34 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
-geoview_path = ::File.join(node['ckan']['install_path'], 'ckanext-geoview')
-git geoview_path do
-  repository 'https://github.com/pduchesne/ckanext-geoview.git'
-  user node['ckan']['system_user']
-  group node['ckan']['system_group']
-  notifies :run, 'execute[install_geoview_plugin]', :immediately
+%w(stats text_view image_view recline_view resource_proxy geojson_view wmts_view nasa_ace nasa_ace_actions nasa_ace_datasetform group_private_datasets).each do |plugin|
+  ckan_plugin plugin do
+    action :activate
+  end
 end
 
-execute 'install_geoview_plugin' do
-  cwd geoview_path
-  command <<-EOH
-    /usr/lib/ckan/default/bin/python setup.py develop
-  EOH
-  action :nothing
+ckan_plugin 'geo_view' do
+  repository 'https://github.com/pduchesne/ckanext-geoview.git'
+  owner node['ckan']['system_user']
+  group node['ckan']['system_group']
+
+  action [:install, :activate]
+end
+
+ckan_plugin 'googleanalytics' do
+  package 'https://github.com/ckan/ckanext-googleanalytics/archive/v2.0.2.tar.gz'
+  owner node['ckan']['system_user']
+  group node['ckan']['system_group']
+
+  only_if { node['ckan']['googleanalytics'] }
+  action [:install, :activate]
+end
+
+ckan_plugin 's3filestore' do
+  package 'https://github.com/okfn/ckanext-s3filestore/archive/v0.0.5.tar.gz'
+  owner node['ckan']['system_user']
+  group node['ckan']['system_group']
+
+  only_if { node['ckan']['enable_s3filestore'] }
+  action [:install, :activate]
 end
