@@ -3,7 +3,7 @@ default['ckan']['system_user'] = 'www-data'
 default['ckan']['system_group'] = 'www-data'
 default['ckan']['install_path'] = '/usr/lib/ckan/default/src/'
 default['ckan']['actions_dev'] = 'True'
-default['ckan']['theme_version'] = '1.1'
+default['ckan']['theme_version'] = '1.2.0'
 default['ckan']['site_url'] = 'http://localhost'
 
 default['ckan']['config'] = {
