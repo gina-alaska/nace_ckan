@@ -51,3 +51,6 @@ default['cometchat']['db_host'] = ''
 default['cometchat']['db_name'] = ''
 default['cometchat']['db_username'] = ''
 default['cometchat']['db_password'] = ''
+
+## Attributes for Postgress 
+default['postgresql']['pg_gem']['version'] = '0.21.0'
