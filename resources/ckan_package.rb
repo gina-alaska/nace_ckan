@@ -1,6 +1,6 @@
 resource_name :ckan_package
 
-property :version, String, default: '2.5-trusty_amd64'
+property :version, String, default: '2.6-xenial_amd64'
 property :owner, String
 property :group, String
 
@@ -11,7 +11,7 @@ action :install do
     action :create_if_missing
   end
 
-  dpkg_package 'python-ckan_2.5-trusty_amd64.deb' do
+  dpkg_package 'python-ckan_2.6-xenial_amd64.deb' do
     source "#{Chef::Config[:file_cache_path]}/python-ckan_#{new_resource.version}.deb"
     action :install
     notifies :run, 'execute[fix_ckan_owners]', :immediately
