@@ -54,4 +54,4 @@ default['cometchat']['db_password'] = ''
 
 ## Attributes for Postgress 
 default['postgresql']['pg_gem']['version'] = '0.21.0'
-default['java']['jdk_version'] = '8'
+default['java']['jdk_version'] = '7'

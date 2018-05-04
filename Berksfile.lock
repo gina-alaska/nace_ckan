@@ -2,6 +2,9 @@ DEPENDENCIES
   nace-ckan
     path: .
     metadata: true
+  nace_cometchat
+    git: https://github.alaska.edu/gina-cookbooks/nace_cometchat.git
+    revision: 1906d8cb490b65fa4faace423045cdddabf51aef
 
 GRAPH
   apt (6.1.3)
@@ -35,7 +38,7 @@ GRAPH
     postgresql (>= 0.0.0)
     solr (>= 0.0.0)
     tar (>= 0.0.0)
-  nace_cometchat (0.2.5)
+  nace_cometchat (0.2.6)
     chef-vault (>= 0.0.0)
     database (>= 0.0.0)
     mysql (>= 0.0.0)
